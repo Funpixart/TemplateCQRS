@@ -1,0 +1,104 @@
+﻿@inherits FunpixartComponent
+
+@if (!Visible) { return; }
+
+<div @ref="@Element" class="box-flex-card" id="@UniqueId" @attributes="@Attributes">
+        <div class="boxflex">
+            <!-- Header -->
+            @if (!string.IsNullOrEmpty(HeaderTitle))
+            {
+                <div class="box-header @HeaderClass" style="@HeaderStyle">
+                    <div class="header">
+                        <span>
+                            <b>@HeaderTitle</b>
+                        </span>
+                    </div>
+                    @if (TopHeadContent is not null)
+                    {
+                        <div class="date @TopClass" style="@TopStyle">
+                            @TopHeadContent
+                        </div>
+                    }
+                    else if(!string.IsNullOrEmpty(TopHead))
+                    {
+                        <div class="date @TopClass" style="@TopStyle">
+                            <span>
+                                <b>@TopHead</b>
+                            </span>
+                        </div>
+                    }
+                </div>
+                <div class="line"></div>
+            }
+            else if (HeaderContent is not null)
+            {
+                <div class="box-header @HeaderClass" style="@HeaderStyle">
+                    <div class="header">
+                        @HeaderContent
+                    </div>
+                    @if (TopHeadContent is not null)
+                    {
+                        <div class="date @TopClass" style="@TopStyle">
+                            @TopHeadContent
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="date @TopClass" style="@TopStyle">
+                            <span>
+                                <b>@TopHead</b>
+                            </span>
+                        </div>
+                    }
+                </div>
+                <div class="line"></div>
+            }
+            else
+            {
+                @if (TopHeadContent is not null)
+                {
+                    <div class="box-header @HeaderClass" style="@HeaderStyle">
+                        <div class="date @TopClass" style="@TopStyle">
+                            @TopHeadContent
+                        </div>
+                    </div>
+                    <div class="line"></div>
+                }
+                else if (!string.IsNullOrEmpty(TopHead))
+                {
+                    <div class="box-header @HeaderClass" style="@HeaderStyle">
+                        <div class="date @TopClass" style="@TopStyle">
+                            <span>
+                                <b>@TopHead</b>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="line"></div>
+                }
+            }
+
+            <!-- Content -->
+            @if (IsFullContent)
+            {
+                <div class="box-content shadow-style @ContentClass" style="display:flex; flex-direction: column; @ContentStyle">
+                    @Content
+                </div>
+            }
+            else
+            {
+                <div class="box-content shadow-style @ContentClass" style="@ContentStyle">
+                    @Content
+                </div>
+            }
+
+            <!-- Footer -->
+            @if (Footer is not null)
+            {
+                <div class="line"></div>
+
+                <div class="box-footer @FooterClass" style="@FooterStyle">
+                    @Footer
+                </div>
+            }
+        </div>
+    </div>

@@ -1,0 +1,9 @@
+﻿@page "/accessdenied"
+@using TemplateCQRS.Domain.Enums
+
+<NotFound Code="@ApplicationStatusCode.WebForbidden" Message="@_message" />
+
+@code{
+    private string _message = "You're not allow to see this page.";
+    private string _messageEs = "No tienes permitido entrar aqui. Contacta tu supervisor inmediato.";
+}

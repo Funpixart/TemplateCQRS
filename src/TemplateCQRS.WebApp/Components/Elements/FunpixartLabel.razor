@@ -1,0 +1,13 @@
+﻿@inherits FunpixartComponent
+@if (!Visible) { return; }
+
+<label id="@UniqueId" @ref="@Element" for="@For" @attributes="Attributes">
+    @if (ChildContent is not null)
+    {
+        @ChildContent
+    }
+    else
+    {
+        @Text
+    }
+</label>

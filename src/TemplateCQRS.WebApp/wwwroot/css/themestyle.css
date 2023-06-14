@@ -1,0 +1,236 @@
+﻿:root {
+    --color-gray-dark: #414141;
+    --color-gray-lighter: #eeeeee;
+    --color-success-bg: #c3ffad;
+    --color-success: darkgreen;
+    --color-success-bg-before: #61d65b;
+    --color-success-dark-bg: #308a0f;
+    --color-success-dark-bg-before: #37ec2d;
+    --color-warning-bg: #ffebb6;
+    --color-warning: saddlebrown;
+    --color-warning-bg-before: #ffc400;
+    --color-warning-dark-bg: #ffc107;
+    --color-warning-dark-bg-before: #ffeb00;
+    --color-danger-bg: #ffd5d1;
+    --color-danger: darkred;
+    --color-danger-bg-before: #ff4436;
+    --color-danger-dark-bg: #971c29;
+    --color-danger-dark-bg-before: #ff0019;
+    --color-cyan-bg: #b9f6ff;
+    --color-cyan: darkcyan;
+    --color-cyan-bg-before: darkcyan;
+    --color-cyan-dark-bg: #0997bb;
+    --color-cyan-dark-bg-before: #49f0fc;
+    --color-info-bg: #d6e0ff;
+    --color-info: darkblue;
+    --color-info-bg-before: #2952cc;
+    --color-info-dark-bg: #2952cc;
+    --color-info-dark-bg-before: #d6e0ff;
+    --color-orange-bg: #ffcfa8;
+    --color-orange: saddlebrown;
+    --color-orange-bg-before: #ff8827;
+    --color-orange-dark-bg: #b96900;
+    --color-orange-dark-bg-before: #ff8800;
+    --color-purple-bg: #e2c0ff;
+    --color-purple: #5f0ea7;
+    --color-purple-bg-before: #6c17b8;
+    --color-purple-dark-bg: #5f0ea7;
+    --color-purple-dark-bg-before: #be7df7;
+    --color-default-bg: #e2e2e2;
+    --color-default: #353535;
+    --color-default-bg-before: #3a3a3a;
+    --color-default-dark-bg: #353535;
+    --color-default-dark-bg-before: #c4c4c4;
+}
+
+button.success:hover {
+    background: #b4fc94;
+}
+button.success-dark:hover {
+    background: #257a06;
+}
+button.warning:hover {
+    background: #f8e2a7;
+}
+button.warning-dark:hover {
+    background: #f1b502;
+}
+button.danger:hover, button.error:hover {
+    background: #f7c9c5;
+}
+button.danger-dark:hover, button.error-dark:hover {
+    background: #8b0d1a;
+}
+button.cyan:hover {
+    background: #b1f0fa;
+}
+button.cyan-dark:hover {
+    background: #038bae;
+}
+button.info:hover {
+    background: #cdd8fb;
+}
+button.info-dark:hover {
+    background: #1d48c7;
+}
+button.orange:hover {
+    background: #fbc89f;
+}
+button.orange-dark:hover {
+    background: #b06400;
+}
+button.purple:hover {
+    background: #ddb9fb;
+}
+button.purple-dark:hover {
+    background: #4f088e;
+}
+button.default:hover {
+    background: #cfcfcf;
+}
+button.default-dark:hover {
+    background: #2a2a2a;
+}
+
+.success {
+    background: var(--color-success-bg);
+    color: var(--color-success);
+}
+
+    .success:before {
+        background: var(--color-success-bg-before);
+    }
+
+.success-dark {
+    color: var(--color-gray-lighter);
+    background: var(--color-success-dark-bg);
+}
+
+    .success-dark:before {
+        background: var(--color-success-dark-bg-before);
+    }
+
+.warning {
+    background: var(--color-warning-bg);
+    color: var(--color-warning);
+}
+
+    .warning:before {
+        background: var(--color-warning-bg-before);
+    }
+
+.warning-dark {
+    background: var(--color-warning-dark-bg);
+}
+
+    .warning-dark:before {
+        background: var(--color-warning-dark-bg-before);
+    }
+
+.danger, .error {
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+}
+
+    .danger:before, .error:before {
+        background: var(--color-danger-bg-before);
+    }
+
+.danger-dark, .error-dark {
+    color: var(--color-gray-lighter);
+    background: var(--color-danger-dark-bg);
+}
+
+    .danger-dark::before, .error-dark:before {
+        background: var(--color-danger-dark-bg-before);
+    }
+
+.cyan {
+    background: var(--color-cyan-bg);
+    color: var(--color-cyan);
+}
+
+    .cyan:before {
+        background: var(--color-cyan-bg-before);
+    }
+
+.cyan-dark {
+    color: var(--color-gray-lighter);
+    background: var(--color-cyan-dark-bg);
+}
+
+    .cyan-dark:before {
+        background: var(--color-cyan-dark-bg-before);
+    }
+
+.info {
+    background: var(--color-info-bg);
+    color: var(--color-info);
+}
+
+    .info::before {
+        background: var(--color-info-bg-before);
+    }
+
+.info-dark {
+    color: var(--color-gray-lighter);
+    background: var(--color-info-dark-bg);
+}
+
+    .info-dark::before {
+        background: var(--color-info-dark-bg-before);
+    }
+
+.orange {
+    background: var(--color-orange-bg);
+    color: var(--color-orange);
+}
+
+    .orange::before {
+        background: var(--color-orange-bg-before);
+    }
+
+.orange-dark {
+    color: var(--color-gray-lighter);
+    background: var(--color-orange-dark-bg);
+}
+
+    .orange-dark::before {
+        background: var(--color-orange-dark-bg-before);
+    }
+
+.purple {
+    background: var(--color-purple-bg);
+    color:var(--color-purple);
+}
+
+    .purple::before {
+        background: var(--color-purple-bg-before);
+    }
+
+.purple-dark {
+    color: var(--color-gray-lighter);
+    background: var(--color-purple-dark-bg);
+}
+
+    .purple-dark::before {
+        background: var(--color-purple-dark-bg-before);
+    }
+
+.default {
+    background: var(--color-default-bg);
+    color: var(--color-default);
+}
+
+    .default::before {
+        background: var(--color-default-bg-before);
+    }
+
+.default-dark {
+    color: var(--color-gray-lighter);
+    background: var(--color-default-dark-bg);
+}
+
+    .default-dark::before {
+        background: var(--color-default-dark-bg-before);
+    }

@@ -1,0 +1,29 @@
+﻿@typeparam TItem
+@typeparam TValue
+
+@inherits FunpixartDynamic
+
+@if (!Visible)
+{
+    return;
+}
+
+<select @bind="CurrentValue" @attributes="@Attributes">
+    <option value="" selected style="color:#9d9d9d">@PlaceholderOption</option>
+    @foreach (var item in Options)
+    {
+        if (item is not null)
+        {
+            if (IsPrimitiveType)
+            {
+                <option value="@item">@item</option>
+            }
+            else
+            {
+                <option value="@item.GetType().GetProperty(ValueProperty)?.GetValue(item, null)">
+                    @item.GetType().GetProperty(TextProperty)?.GetValue(item, null)
+                </option>
+            }
+        }
+    }
+</select>

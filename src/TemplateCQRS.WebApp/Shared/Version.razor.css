@@ -1,0 +1,10 @@
+﻿
+.version {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.version .center-home {
+    padding-left: calc(25% - 5rem);
+}

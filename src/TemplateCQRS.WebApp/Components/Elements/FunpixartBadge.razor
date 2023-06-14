@@ -1,0 +1,5 @@
+﻿@inherits BadgeComponent
+
+@if (!Visible) { return; }
+
+<span @ref="@Element" @attributes="@Attributes" id="@UniqueId" class="@(GetBadge() +" "+ GetStatus())">@GetMessage()</span>

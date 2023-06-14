@@ -1,0 +1,72 @@
+﻿.box-flex {
+    background-color: white;
+    width: auto;
+    border-radius: 0.2rem;
+    margin: 0.3rem;
+}
+
+.box {
+    max-width: 50vh;
+    border-radius: 0.2rem;
+    padding: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.3) 0px 1px 2px;
+}
+
+    .box span {
+        overflow-wrap: break-word;
+        max-inline-size: 50vh;
+    }
+
+    .box .box-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 3vh;
+    }
+
+        .box .box-header img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .box .box-header span {
+            font-size: 18px;
+            overflow-wrap: break-word;
+            max-inline-size: 40vh;
+            font-weight: 500;
+        }
+
+        .box .box-header .header {
+            display: flex;
+            gap: 0.2rem;
+            align-items: center;
+        }
+
+        .box .box-header .date {
+            display: flex;
+            align-items: center;
+            overflow-wrap: break-word;
+            max-inline-size: 15vh;
+        }
+
+            .box .box-header .date span {
+                margin: 0;
+                font-size: 12px;
+            }
+
+    .box .box-content {
+        display: flex;
+        padding: 0.4rem 0;
+        font-size: 14px;
+    }
+
+    .box .box-footer {
+        font-size: 12px;
+        font-style: italic;
+    }
+
+        .box .box-footer .line {
+            margin: 0.4rem 0 0.2rem 0;
+            border-bottom: solid rgba(16, 51, 5, 0.4) 1px;
+        }
+
+

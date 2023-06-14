@@ -1,0 +1,9 @@
+﻿@inherits ModalComponent
+
+@if (!Visible) { return; }
+
+<div @ref="@Element" class="modal" @attributes="@Attributes" id="@UniqueId" >
+    <div class="modal-content @ContentClass" style="@ContentStyle">
+        @ChildComponent
+    </div>
+</div>

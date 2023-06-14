@@ -1,0 +1,42 @@
+﻿@using System.Collections.Specialized
+@implements IDisposable
+
+<div class="notification-container">
+    @for (var i = 0; i < Service.Messages.Count; i++)
+    {
+        @DrawMessage(i, Service.Messages[i])
+    }
+</div>
+
+@code {
+
+    [Inject]
+    private INotificationService Service { get; set; }
+
+    RenderFragment DrawMessage(int index, NotificationMessage m)
+    {
+        return builder =>
+        {
+            var i = 0;
+            builder.OpenComponent(i, typeof(RDKNotification));
+            builder.AddAttribute(i++, "Message", m);
+            builder.CloseComponent();
+        };
+    }
+
+    async void Update(object sender, NotifyCollectionChangedEventArgs args)
+    {
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        Service.Messages.CollectionChanged -= Update;
+    }
+
+    protected override void OnInitialized()
+    {
+        Service.Messages.CollectionChanged += Update;
+    }
+
+}

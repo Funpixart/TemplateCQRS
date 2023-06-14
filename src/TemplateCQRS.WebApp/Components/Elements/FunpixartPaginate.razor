@@ -1,0 +1,16 @@
+﻿@inherits FunpixartComponent
+@if (!Visible) { return; }
+
+<div class="btn-container" id="@UniqueId" @ref="@Element" @attributes="Attributes">
+    @foreach (var link in PagingLinks)
+    {
+        @if (link.Enabled)
+        {
+            <button @onclick="() => OnSelectedPage.InvokeAsync(link)" class="@(link.Active ? "active" : null)" title="@link.Info">@link.Text</button>
+        }
+        else
+        {
+            <button @onclick="() => OnSelectedPage.InvokeAsync(link)" class="@(link.Active ? "active" : null)" title="@link.Info" disabled>@link.Text</button>
+        }
+    }
+</div>

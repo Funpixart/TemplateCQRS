@@ -1,0 +1,45 @@
+﻿.badge {
+    font-weight: 600;
+    font-size: 11px;
+    display: inline-block;
+    white-space: nowrap;
+    width: auto;
+    position: relative;
+    border-radius: 100px;
+    line-height: 1;
+    overflow: hidden;
+    padding: 0px 12px 0px 20px;
+    text-overflow: ellipsis;
+    line-height: 1.25rem;
+    word-break: break-word;
+    max-height: 1.3rem;
+    max-width: fit-content;
+}
+    .badge::before {
+        border-radius: 50%;
+        content: '';
+        height: 10px;
+        left: 6px;
+        margin-top: -5px;
+        position: absolute;
+        top: 50%;
+        width: 10px;
+        animation: fadeInFadeOut 4s infinite;
+    }
+.badge-simple {
+    font-weight: 600;
+    font-size: 11px;
+    display: inline-block;
+    max-height: 1.3rem;
+    max-width: fit-content;
+    white-space: nowrap;
+    width: auto;
+    position: relative;
+    border-radius: 100px;
+    line-height: 1;
+    overflow: hidden;
+    padding: 0px 12px 0px 12px;
+    text-overflow: ellipsis;
+    line-height: 1.25rem;
+    word-break: break-word;
+}

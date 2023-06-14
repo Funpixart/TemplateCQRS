@@ -1,0 +1,22 @@
+﻿@using TemplateCQRS.Domain.Enums
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <TemplateCQRS.WebApp.Components.Common.NotFound Code="ApplicationStatusCode.WebForbidden" Message="You don't access to this page. Contact the administrator" />
+                </NotAuthorized>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p role="alert">Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+
+</CascadingAuthenticationState>
+
+<TemplateCQRS.WebApp.Components.Notification.NotificationWrapper />

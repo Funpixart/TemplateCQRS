@@ -1,0 +1,33 @@
+﻿@if (Visible)
+{
+    <div class="box-flex">
+        <div class="box @Message.ClassByType">
+            <div class="box-header">
+                <div class="header">
+                    <img src="@Message.ImgSrc" alt="error loading notification">
+                    <span>@Message.TitleByType</span>
+                </div>
+@*                <div class="date">
+                    <span>
+                        <b>@Message.DateString</b>
+                    </span>
+                </div>*@
+            </div>
+            @if (!string.IsNullOrEmpty(Message.Message))
+            {
+                <div class="box-content">
+                    <span>@Message.Message </span>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Message.Footer))
+            {
+                <div class="box-footer">
+                    <div class="line"></div>
+                    <span>
+                        <b>@Message.Footer</b>
+                    </span>
+                </div>
+            }
+        </div>
+    </div>
+}

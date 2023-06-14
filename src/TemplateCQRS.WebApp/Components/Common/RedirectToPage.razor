@@ -1,0 +1,33 @@
+﻿@using TemplateCQRS.WebApp.Components.Elements
+
+﻿@if (_isLoaded)
+{
+    @ChildContent
+}
+else
+{
+    <div class="center_item">
+        <FunpixartSpinner CustomCss="width: 80px; height:80px;" />
+        <span>Loading...</span>
+    </div>
+}
+
+@code {
+
+    [Inject] public NavigationManager NavManager { get; set; } = null!;
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public string PageUrl { get; set; } = "/Login";
+
+    [Parameter] public bool ForceLoad { get; set; } = true;
+
+    private bool _isLoaded;
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        NavManager.NavigateTo($"{PageUrl}", ForceLoad);
+        _isLoaded = true;
+        return Task.CompletedTask;
+    }
+
+}

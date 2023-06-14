@@ -1,0 +1,69 @@
+﻿.box-flex-card {
+    width: auto;
+    flex: 1 1 content;
+}
+
+.boxflex {
+    background-color: white;
+    width: auto;
+    margin: 0.3rem;
+    border-radius: 0.2rem;
+    padding: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.3) 0px 1px 2px;
+}
+
+    .boxflex span {
+        overflow-wrap: break-word;
+        max-inline-size: 50vh;
+    }
+
+    .boxflex .box-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 3vh;
+    }
+
+        .boxflex .box-header img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .boxflex .box-header span {
+            font-size: 16px;
+            overflow-wrap: break-word;
+            max-inline-size: 40vh;
+        }
+
+        .boxflex .box-header .header {
+            display: flex;
+            gap: 0.2rem;
+        }
+
+        .boxflex .box-header .date {
+            display: flex;
+            align-items: center;
+            overflow-wrap: break-word;
+            max-inline-size: 15vh;
+        }
+
+            .boxflex .box-header .date span {
+                margin: 0;
+                font-size: 10px;
+            }
+
+    .boxflex .box-content {
+        display: flex;
+        padding: 0.4rem;
+        background-color: rgb(250,250,250);
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .boxflex .box-footer {
+        font-size: 12px;
+    }
+
+        .boxflex .box-footer img {
+            width: 18px;
+            height: 18px;
+        }

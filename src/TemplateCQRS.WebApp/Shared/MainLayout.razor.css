@@ -1,0 +1,13 @@
+.body-content {
+    display: flex;
+    margin: 0;
+    align-items: flex-end;
+    width: 100%;
+}
+
+    .body-content .home-section {
+        display: flex;
+        flex-direction: column;
+        padding: 0.6rem;
+        width: 100%;
+    }

@@ -1,0 +1,82 @@
+﻿@using TemplateCQRS.WebApp.Components.Enums
+
+@switch (SpinnerType)
+{
+    case SpinnerType.Circle:
+        @RenderCircle
+        break;
+    case SpinnerType.FadeCircle:
+        @RenderFadeCircle
+        break;
+    case SpinnerType.FoldingCube:
+        @RenderFoldingCube
+        break;
+    case SpinnerType.GridCube:
+        @RenderGridCube
+        break;
+}
+
+@code {
+
+    RenderFragment RenderFadeCircle => __builder =>
+    {
+        <div class="sk-fading-circle" style="@CustomCss">
+            <div class="sk-circle1 sk-circle"></div>
+            <div class="sk-circle2 sk-circle"></div>
+            <div class="sk-circle3 sk-circle"></div>
+            <div class="sk-circle4 sk-circle"></div>
+            <div class="sk-circle5 sk-circle"></div>
+            <div class="sk-circle6 sk-circle"></div>
+            <div class="sk-circle7 sk-circle"></div>
+            <div class="sk-circle8 sk-circle"></div>
+            <div class="sk-circle9 sk-circle"></div>
+            <div class="sk-circle10 sk-circle"></div>
+            <div class="sk-circle11 sk-circle"></div>
+            <div class="sk-circle12 sk-circle"></div>
+        </div>
+    };
+
+    RenderFragment RenderCircle => __builder =>
+    {
+        <div class="sk-circle" style="@CustomCss">
+            <div class="sk-circle1 sk-child"></div>
+            <div class="sk-circle2 sk-child"></div>
+            <div class="sk-circle3 sk-child"></div>
+            <div class="sk-circle4 sk-child"></div>
+            <div class="sk-circle5 sk-child"></div>
+            <div class="sk-circle6 sk-child"></div>
+            <div class="sk-circle7 sk-child"></div>
+            <div class="sk-circle8 sk-child"></div>
+            <div class="sk-circle9 sk-child"></div>
+            <div class="sk-circle10 sk-child"></div>
+            <div class="sk-circle11 sk-child"></div>
+            <div class="sk-circle12 sk-child"></div>
+        </div>
+    };
+
+    RenderFragment RenderFoldingCube => __builder =>
+    {
+        <div class="sk-folding-cube" style="@CustomCss">
+            <div class="sk-cube1 sk-cube"></div>
+            <div class="sk-cube2 sk-cube"></div>
+            <div class="sk-cube4 sk-cube"></div>
+            <div class="sk-cube3 sk-cube"></div>
+        </div>
+    };
+
+    RenderFragment RenderGridCube => __builder =>
+    {
+        <div class="sk-cube-grid" style="@CustomCss">
+            <div class="sk-cube sk-cube1"></div>
+            <div class="sk-cube sk-cube2"></div>
+            <div class="sk-cube sk-cube3"></div>
+            <div class="sk-cube sk-cube4"></div>
+            <div class="sk-cube sk-cube5"></div>
+            <div class="sk-cube sk-cube6"></div>
+            <div class="sk-cube sk-cube7"></div>
+            <div class="sk-cube sk-cube8"></div>
+            <div class="sk-cube sk-cube9"></div>
+        </div>
+    };
+
+}

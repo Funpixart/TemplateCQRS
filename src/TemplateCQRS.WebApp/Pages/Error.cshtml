@@ -1,0 +1,20 @@
+﻿@page
+@model TemplateCQRS.WebApp.Pages.ErrorModel
+@{
+    ViewData["Title"] = "Error processing a request.";
+    Layout = "_Host.cshtml";
+}
+
+<div class="main">
+    <div class="content px-4">
+        <h1 class="text-danger">Error.</h1>
+        <h2 class="text-danger">An error occurred while processing your request.</h2>
+
+        @if (Model.ShowRequestId)
+        {
+            <p>
+                <strong>Request ID:</strong> <code>@Model.RequestId</code>
+            </p>
+        }
+    </div>
+</div>

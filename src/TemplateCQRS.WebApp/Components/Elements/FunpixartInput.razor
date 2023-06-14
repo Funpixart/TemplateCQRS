@@ -1,0 +1,14 @@
+﻿@typeparam TValue
+@inherits FunpixartDynamic<TValue>
+@if (!Visible) { return; }
+
+<div id="@UniqueId" @ref="@Element">
+    <label>
+        @Label
+        @if (IsRequired)
+        {
+            <span style="font-size: 12px; font-weight: 800; color: red;">*</span>
+        }
+        <input @attributes="@Attributes" @onchange="InvokeValue" value="@Value" />
+    </label>
+</div>

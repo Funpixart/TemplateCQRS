@@ -1,0 +1,13 @@
+﻿@inherits FunpixartDynamic
+@if (!Visible) { return; }
+
+<button @onclick="OnClick" @attributes="@Attributes" @ref="Element" id="@UniqueId">
+    @if (HasIcon)
+    {
+        <i class="@IconClass" style="@(HasText ? "padding-right: 0.3rem;" : "")"></i>
+    }
+    @if (HasText)
+    {
+        @Text
+    }
+</button>

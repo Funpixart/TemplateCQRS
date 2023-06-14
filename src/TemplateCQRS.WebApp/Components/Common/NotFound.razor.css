@@ -1,0 +1,19 @@
+﻿.not-found {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15rem 0 10rem 0;
+    gap: 1rem;
+    align-items: center;
+}
+
+.not-found span:first-child {
+    text-shadow: rgba(150, 150, 150, 0.6) 2px 2px 1px;
+    font-size: 6rem;
+    font-weight: 600;
+}
+
+.not-found span:nth-child(2) {
+    font-size: 20px;
+    margin-top: -1rem;
+}
