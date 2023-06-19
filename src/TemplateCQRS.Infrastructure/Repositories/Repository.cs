@@ -36,7 +36,7 @@ public class Repository<T> : IRepository<T> where T : class
         {
             return;
         }
-        await _unitOfWork.AddAsync(entity);
+        await _unitOfWork.RemoveAsync(entity);
     }
 
     public async Task<IEnumerable<T>> GetByAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
