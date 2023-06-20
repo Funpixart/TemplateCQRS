@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using TemplateCQRS.Domain.Dto.User;
 
 namespace TemplateCQRS.Application.Features.UserFeature;
 
@@ -10,7 +9,8 @@ internal class UserMappingProfile : Profile
         try
         {
             CreateMap<User, CreateUserDto>().ReverseMap();
-            CreateMap<User, DetailUserDto>().ReverseMap();
+            CreateMap<User, UpdateUserDto>().ReverseMap();
+            CreateMap<User, InfoUserDto>().ReverseMap();
         }
         catch (Exception ex)
         {

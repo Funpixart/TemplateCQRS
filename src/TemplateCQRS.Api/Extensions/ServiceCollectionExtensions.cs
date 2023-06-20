@@ -14,6 +14,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using TemplateCQRS.Api.Security;
+using AutoMapper.Internal;
 
 namespace TemplateCQRS.Api.Extensions;
 
@@ -54,6 +55,22 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
+    ///     Adds AutoMapper configuration and mappings to the service collection.
+    ///     This extension method takes care of not overwriting non-null destination properties.
+    /// </summary>
+    /// <param name="services">The IServiceCollection to add the service to.</param>
+    public static void AddCustomAutoMapper(this IServiceCollection services)
+    {
+        services.AddAutoMapper(cfg =>
+        {
+            cfg.Internal()
+                .ForAllMaps((map, exp) =>
+                    exp.ForAllMembers(options =>
+                        options.Condition(sourceMember => sourceMember != null)));
+        }, typeof(Application.Program));
+    }
+
+    /// <summary>
     ///     Extension method to add SwaggerGen with custom options to the IServiceCollection.
     /// </summary>
     /// <param name="services">The IServiceCollection instance for which to add the SwaggerGen with custom options.</param>
@@ -65,7 +82,7 @@ public static class ServiceCollectionExtensions
             {
                 Title = "API TemplateCQRS",
                 Version = "v1",
-                Description = "Desarrollada por el Departamento TIC, División Interna.",
+                Description = "Desarrollado por https://funpixart.com / https://Funpixart.net",
             });
 
             swag.OperationFilter<CustomOperationFilter>();
@@ -87,6 +104,11 @@ public static class ServiceCollectionExtensions
         where TRole : IdentityRole<TKey>
         where TContext : DbContext
     {
+        services.Configure<SecurityStampValidatorOptions>(options =>
+        {
+            options.ValidationInterval = TimeSpan.FromMinutes(1);
+        });
+
         services.AddIdentity<TUser, TRole>(options =>
         {
             // Default Lockout settings.
@@ -98,7 +120,8 @@ public static class ServiceCollectionExtensions
             options.SignIn.RequireConfirmedEmail = false;
             options.SignIn.RequireConfirmedAccount = false;
             options.User.RequireUniqueEmail = true;
-        }).AddRoles<TRole>().AddEntityFrameworkStores<TContext>();
+
+        }).AddRoles<TRole>().AddEntityFrameworkStores<TContext>().AddDefaultTokenProviders();
 
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
@@ -113,6 +136,7 @@ public static class ServiceCollectionExtensions
                 options.SlidingExpiration = true;
                 options.Cookie.MaxAge = TimeSpan.FromHours(12);
                 options.ExpireTimeSpan = TimeSpan.FromHours(12);
+                options.Events.OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync;
             });
         services
             .AddDataProtection()

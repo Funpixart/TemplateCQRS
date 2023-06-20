@@ -23,8 +23,4 @@
     <ProjectReference Include="..\TemplateCQRS.Infrastructure\TemplateCQRS.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\UserFeature\Queries\" />
-  </ItemGroup>
-
 </Project>

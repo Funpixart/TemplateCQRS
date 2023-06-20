@@ -1,9 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TemplateCQRS.Application.Features.RoleFeature;
 
@@ -11,13 +6,15 @@ namespace TemplateCQRS.Application.Features.RoleFeature;
 ///     Defines mapping configuration for Role entities using AutoMapper.
 ///     This class is instantiated by reflection during the application's initialization.
 /// </summary>
-public class RoleMappingProfile : Profile
+internal class RoleMappingProfile : Profile
 {
     public RoleMappingProfile()
     {
         try
         {
-            CreateMap<Role, RoleDto>().ReverseMap();
+            CreateMap<Role, CreateRoleDto>().ReverseMap();
+            CreateMap<Role, InfoRoleDto>().ReverseMap();
+            CreateMap<Role, UpdateRoleDto>().ReverseMap();
         }
         catch (Exception ex)
         {

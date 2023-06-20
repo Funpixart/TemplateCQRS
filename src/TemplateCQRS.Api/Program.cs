@@ -40,6 +40,7 @@ builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(TemplateC
 // Build the application
 var app = builder.Build();
 
+// Middleware to catch exceptions
 app.UseExceptionCatcherMiddleware();
 
 // Set up Serilog request logging

@@ -30,5 +30,19 @@ public class CustomOperationFilter : IOperationFilter
         {
             operation.Summary = endpointSummaryAttribute.Summary;
         }
+
+        // Handle response descriptions
+        var responseDescriptionAttributes = methodInfo.GetCustomAttributes<ResponseDescriptionAttribute>();
+        foreach (var attr in responseDescriptionAttributes)
+        {
+            if (!operation.Responses.ContainsKey(attr.StatusCode.ToString()))
+            {
+                operation.Responses.Add(attr.StatusCode.ToString(), new OpenApiResponse { Description = attr.Description });
+            }
+            else
+            {
+                operation.Responses[attr.StatusCode.ToString()].Description = attr.Description;
+            }
+        }
     }
 }

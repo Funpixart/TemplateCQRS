@@ -1,17 +1,14 @@
-﻿using System.Reflection.Metadata;
-using AutoMapper;
-using FluentValidation;
-using FluentValidation.Results;
-using TemplateCQRS.Application.Extensions;
+﻿using AutoMapper;
 using TemplateCQRS.Application.Features.UserFeature.Commands;
 using TemplateCQRS.Application.Features.UserFeature.Validators;
 using TemplateCQRS.Domain.Common;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace TemplateCQRS.Application.Features.UserFeature.Handlers;
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Payload<DetailUserDto, List<ValidationFailure>>>
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Payload<InfoUserDto, List<ValidationFailure>>>
 {
     private readonly UserManager<User> _userManager;
     private readonly CreateUserCommandValidator _validator;
@@ -24,13 +21,16 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Paylo
         _userManager = userManager;
     }
 
-    public async Task<Payload<DetailUserDto, List<ValidationFailure>>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<Payload<InfoUserDto, List<ValidationFailure>>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-         // Catch possible exceptions and let the others exception propagate.
+        // Catch possible exceptions and let the others exception propagate.
         try
         {
             // Validate the request.
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+
+            // If there were any validation errors, return a failure payload.
+            if (validationResult.Errors.Count > 0) return validationResult.Errors;
 
             // Map the dto to the model.
             var user = _mapper.Map<User>(request.CreateUserDto);
@@ -53,16 +53,14 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Paylo
                 validationResult.Errors.AddIdentityErrorsToValidationFailures(userResult.Errors);
             }
 
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var mappedUser = _mapper.Map<InfoUserDto>(user);
+            mappedUser.Roles = userRoles;
+
             // If there were any validation errors, return a failure payload.
-            if (validationResult.Errors.Count > 0)
-            {
-                return Payload<DetailUserDto, List<ValidationFailure>>.Failure(validationResult.Errors);
-            }
+            if (validationResult.Errors.Count > 0) return validationResult.Errors;
 
-            var detailUserDto = _mapper.Map<DetailUserDto>(user);
-            var payload = Payload<DetailUserDto, List<ValidationFailure>>.Success(detailUserDto);
-
-            return payload;
+            return mappedUser;
         }
         catch (Exception ex)
         {

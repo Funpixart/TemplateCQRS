@@ -67,7 +67,7 @@ public class RoleCommandQueryHandlerTests
         Setup_Mapper();
 
         // Define a CreateRoleDto instance which represents a new role to be created
-        var roleDto = new RoleDto()
+        var roleDto = new InfoRoleDto()
         {
             AccessLevel = 1,
             Description = "Unit Test Role 2",
@@ -91,11 +91,11 @@ public class RoleCommandQueryHandlerTests
             .ReturnsAsync(IdentityResult.Success);
 
         // Arrange: Setup the mock IMapper to return a new Role when Map is called
-        MapperMock.Setup(m => m.Map<Role>(It.IsAny<RoleDto>()))
+        MapperMock.Setup(m => m.Map<Role>(It.IsAny<InfoRoleDto>()))
             .Returns(Constants.DefaultRoles.User);
 
         // Arrange: Setup the mock IMapper to return a new DetailRoleDto when Map is called
-        MapperMock.Setup(m => m.Map<RoleDto>(It.IsAny<Role>()))
+        MapperMock.Setup(m => m.Map<InfoRoleDto>(It.IsAny<Role>()))
             .Returns(roleDto);
 
         // Act: Instantiate the command handler and call the Handle method
@@ -112,7 +112,7 @@ public class RoleCommandQueryHandlerTests
         Setup_RoleManager();
         Setup_Mapper();
         
-        var roleDto = new RoleDto()
+        var roleDto = new InfoRoleDto()
         {
             AccessLevel = 4,
             Description = "Updated Test",
@@ -132,11 +132,11 @@ public class RoleCommandQueryHandlerTests
             .ReturnsAsync(IdentityResult.Success);
 
         // Arrange: Setup the mock IMapper to return a Default Role when Map is called
-        MapperMock.Setup(m => m.Map<Role>(It.IsAny<RoleDto>()))
+        MapperMock.Setup(m => m.Map<Role>(It.IsAny<InfoRoleDto>()))
             .Returns(Constants.DefaultRoles.User);
 
         // Arrange: Setup the mock IMapper to return a new RoleDto when Map is called
-        MapperMock.Setup(m => m.Map<RoleDto>(It.IsAny<Role>()))
+        MapperMock.Setup(m => m.Map<InfoRoleDto>(It.IsAny<Role>()))
             .Returns(roleDto);
 
         // Arrange: Setup the mock UnitOfWork to return the store role when FindByKey is called

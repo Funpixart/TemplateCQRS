@@ -14,3 +14,16 @@ public class MultipleDescriptionAttribute : DescriptionAttribute
         Language = language;
     }
 }
+
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+public class ResponseDescriptionAttribute : Attribute
+{
+    public int StatusCode { get; }
+    public string Description { get; }
+
+    public ResponseDescriptionAttribute(int statusCode, string description)
+    {
+        StatusCode = statusCode;
+        Description = description;
+    }
+}

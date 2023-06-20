@@ -14,6 +14,7 @@ public static class WebApplicationExtensions
     {
         app.MapUserEndpoints();
         app.MapRoleEndpoints();
+        app.MapClaimEndpoints();
         app.MapTokenEndpoints();
     }
 
