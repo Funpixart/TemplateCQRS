@@ -4,7 +4,7 @@ using TemplateCQRS.Application.Features.RoleFeature.Queries;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TemplateCQRS.Api.Common;
+using TemplateCQRS.Domain.Common;
 
 namespace TemplateCQRS.Api.Endpoints;
 

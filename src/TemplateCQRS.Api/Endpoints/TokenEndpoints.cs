@@ -3,9 +3,9 @@ using TemplateCQRS.Application.Common;
 using TemplateCQRS.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Text.Json;
-using TemplateCQRS.Api.Common;
 using TemplateCQRS.Api.Security;
 using TemplateCQRS.Application.Common;
+using TemplateCQRS.Domain.Common;
 using TemplateCQRS.Domain.Models;
 using static TemplateCQRS.Domain.Common.Constants;
 

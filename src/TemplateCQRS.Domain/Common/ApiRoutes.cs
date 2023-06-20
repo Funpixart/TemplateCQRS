@@ -1,4 +1,4 @@
-﻿namespace TemplateCQRS.Api.Common;
+﻿namespace TemplateCQRS.Domain.Common;
 
 public static class ApiRoutes
 {
