@@ -1,12 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2016.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using TemplateCQRS.Api.Security;
-using TemplateCQRS.Application.Common;
-using TemplateCQRS.Application.Features.UserFeature.Commands;
-using TemplateCQRS.Application.Features.UserFeature.Queries;
-using TemplateCQRS.Domain.Dto.User;
-using TemplateCQRS.Domain.Models;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +8,6 @@ using TemplateCQRS.Application.Features.UserFeature.Queries;
 using TemplateCQRS.Domain.Common;
 using TemplateCQRS.Domain.Dto.User;
 using TemplateCQRS.Domain.Models;
-using static TemplateCQRS.Domain.Common.Constants;
 
 namespace TemplateCQRS.Api.Endpoints;
 
@@ -25,19 +16,19 @@ public static class UserEndpoints
     public static void MapUserEndpoints(this WebApplication app)
     {
         app.MapGet(ApiRoutes.UserRoutes.Users, GetAll);
-            //.RequireAuthorization();
+        //.RequireAuthorization();
 
         app.MapPost($"{ApiRoutes.UserRoutes.Users}/{{user}}", CreateUser);
-            //.RequireAuthorization();
+        //.RequireAuthorization();
 
         app.MapPut($"{ApiRoutes.UserRoutes.Users}/{{userId}}", UpdateUser);
-            //.RequireAuthorization();
+        //.RequireAuthorization();
 
         app.MapDelete($"{ApiRoutes.UserRoutes.Users}/{{userId}}", DeleteUser);
-            //.RequireAuthorization();
+        //.RequireAuthorization();
 
         app.MapPut(ApiRoutes.UserRoutes.UsersChangePassword, ChangePassword);
-            //.RequireAuthorization();
+        //.RequireAuthorization();
     }
 
     [SwaggerSummary("Lista de usuarios")]

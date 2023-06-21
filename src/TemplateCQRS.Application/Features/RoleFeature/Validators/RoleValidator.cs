@@ -1,5 +1,4 @@
-﻿using TemplateCQRS.Application.Features.RoleFeature.Commands;
-using FluentValidation;
+﻿using FluentValidation;
 using TemplateCQRS.Application.Features.RoleFeature.Commands;
 
 namespace TemplateCQRS.Application.Features.RoleFeature.Validators;

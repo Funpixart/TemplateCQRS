@@ -1,11 +1,11 @@
-﻿using TemplateCQRS.Application.Common;
-using TemplateCQRS.Application.Features.ClaimFeature.Commands;
-using TemplateCQRS.Application.Features.ClaimFeature.Queries;
-using TemplateCQRS.Domain.Dto.Claim;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TemplateCQRS.Application.Common;
+using TemplateCQRS.Application.Features.ClaimFeature.Commands;
+using TemplateCQRS.Application.Features.ClaimFeature.Queries;
 using TemplateCQRS.Domain.Common;
+using TemplateCQRS.Domain.Dto.Claim;
 
 namespace TemplateCQRS.Api.Endpoints;
 
@@ -26,7 +26,7 @@ public static class ClaimEndpoints
         // .RequireAuthorization();
 
         app.MapDelete($"{ApiRoutes.ClaimRoutes.Claim}/{{claimId}}", DeleteClaim);
-           // .RequireAuthorization();
+        // .RequireAuthorization();
     }
 
     [SwaggerSummary("Lista de permisos")]

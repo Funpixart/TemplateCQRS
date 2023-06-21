@@ -1,9 +1,9 @@
 using FluentValidation;
+using Serilog;
 using TemplateCQRS.Api.Extensions;
 using TemplateCQRS.Api.Middleware;
 using TemplateCQRS.Domain.Models;
 using TemplateCQRS.Infrastructure.Data;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;

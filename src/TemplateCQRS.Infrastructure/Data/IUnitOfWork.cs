@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace TemplateCQRS.Infrastructure.Data;
+﻿namespace TemplateCQRS.Infrastructure.Data;
 
 public interface IUnitOfWork : IDisposable
 {

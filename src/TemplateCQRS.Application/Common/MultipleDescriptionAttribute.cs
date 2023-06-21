@@ -1,5 +1,5 @@
-﻿using TemplateCQRS.Domain.Common;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using TemplateCQRS.Domain.Common;
 
 namespace TemplateCQRS.Application.Common;
 

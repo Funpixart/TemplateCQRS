@@ -1,7 +1,7 @@
-﻿using TemplateCQRS.Domain.Models;
-using TemplateCQRS.Infrastructure.Common;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using TemplateCQRS.Domain.Models;
+using TemplateCQRS.Infrastructure.Common;
 
 namespace TemplateCQRS.Infrastructure.Data;
 

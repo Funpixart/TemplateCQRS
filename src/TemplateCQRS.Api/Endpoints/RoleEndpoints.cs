@@ -1,9 +1,9 @@
-﻿using TemplateCQRS.Application.Common;
-using TemplateCQRS.Application.Features.RoleFeature.Commands;
-using TemplateCQRS.Application.Features.RoleFeature.Queries;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TemplateCQRS.Application.Common;
+using TemplateCQRS.Application.Features.RoleFeature.Commands;
+using TemplateCQRS.Application.Features.RoleFeature.Queries;
 using TemplateCQRS.Domain.Common;
 
 namespace TemplateCQRS.Api.Endpoints;
@@ -13,16 +13,16 @@ public static class RoleEndpoints
     public static void MapRoleEndpoints(this WebApplication app)
     {
         app.MapGet(ApiRoutes.RoleRoutes.Roles, GetAll);
-            //.RequireAuthorization();
+        //.RequireAuthorization();
 
         app.MapPost($"{ApiRoutes.RoleRoutes.Roles}/{{role}}", CreateRole);
-            //.RequireAuthorization();
+        //.RequireAuthorization();
 
         app.MapPut($"{ApiRoutes.RoleRoutes.Roles}/{{roleId}}", UpdateRole);
-            //.RequireAuthorization();
+        //.RequireAuthorization();
 
         app.MapDelete($"{ApiRoutes.RoleRoutes.Roles}/{{roleId}}", DeleteRole);
-            //.RequireAuthorization();
+        //.RequireAuthorization();
     }
 
     [SwaggerSummary("Lista de roles")]

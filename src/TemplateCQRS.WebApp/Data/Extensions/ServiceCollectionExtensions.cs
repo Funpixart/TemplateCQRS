@@ -1,8 +1,8 @@
 ﻿
-using TemplateCQRS.Domain.Common;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using System.Reflection;
+using TemplateCQRS.Domain.Common;
 
 namespace TemplateCQRS.WebApp.Data.Extensions;
 

@@ -1,8 +1,8 @@
-﻿using TemplateCQRS.WebApp.Components.Notification;
-using TemplateCQRS.WebApp.Components.Services;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Serilog;
+using TemplateCQRS.WebApp.Components.Notification;
+using TemplateCQRS.WebApp.Components.Services;
 
 namespace TemplateCQRS.WebApp.Components;
 

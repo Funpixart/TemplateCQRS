@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using TemplateCQRS.Application.Features.UserFeature.Commands;
-using TemplateCQRS.Application.Features.UserFeature.Validators;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using TemplateCQRS.Application.Features.UserFeature.Commands;
+using TemplateCQRS.Application.Features.UserFeature.Validators;
 
 namespace TemplateCQRS.Application.Features.UserFeature.Handlers;
 

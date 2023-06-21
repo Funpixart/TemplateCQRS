@@ -1,20 +1,19 @@
-﻿using TemplateCQRS.Application.Common;
-using TemplateCQRS.Domain.Common;
-using TemplateCQRS.Infrastructure.Data;
-using TemplateCQRS.Infrastructure.Repositories;
+﻿using AutoMapper.Internal;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
-using System.Text;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Text;
 using TemplateCQRS.Api.Security;
-using AutoMapper.Internal;
+using TemplateCQRS.Application.Common;
+using TemplateCQRS.Domain.Common;
+using TemplateCQRS.Infrastructure.Data;
+using TemplateCQRS.Infrastructure.Repositories;
 
 namespace TemplateCQRS.Api.Extensions;
 

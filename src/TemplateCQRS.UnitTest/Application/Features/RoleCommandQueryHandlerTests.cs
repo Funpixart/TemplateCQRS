@@ -1,24 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using FluentValidation;
-using FluentValidation.Results;
-using TemplateCQRS.Application.Common;
-using TemplateCQRS.Application.Features.RoleFeature.Commands;
-using TemplateCQRS.Application.Features.RoleFeature.Handlers;
-using TemplateCQRS.Application.Features.RoleFeature.Validators;
-using TemplateCQRS.Domain.Common;
-using TemplateCQRS.Domain.Dto.Role;
-using TemplateCQRS.Domain.Models;
-using TemplateCQRS.Infrastructure.Data;
-using MediatR;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Xunit;
+using TemplateCQRS.Domain.Common;
+using TemplateCQRS.Domain.Models;
 
 namespace TemplateCQRS.UnitTest.Application.Features;
 

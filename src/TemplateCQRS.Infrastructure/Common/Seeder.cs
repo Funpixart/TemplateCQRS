@@ -1,6 +1,6 @@
-﻿using TemplateCQRS.Domain.Common;
+﻿using Microsoft.EntityFrameworkCore;
+using TemplateCQRS.Domain.Common;
 using TemplateCQRS.Domain.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace TemplateCQRS.Infrastructure.Common;
 

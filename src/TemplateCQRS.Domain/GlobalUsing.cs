@@ -1,1 +1,1 @@
-﻿global using TemplateCQRS.Domain.Dto.Role;
+﻿

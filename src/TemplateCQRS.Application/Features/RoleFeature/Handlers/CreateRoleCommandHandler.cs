@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using TemplateCQRS.Application.Features.RoleFeature.Commands;
-using TemplateCQRS.Application.Features.RoleFeature.Validators;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using TemplateCQRS.Application.Features.RoleFeature.Commands;
+using TemplateCQRS.Application.Features.RoleFeature.Validators;
 
 namespace TemplateCQRS.Application.Features.RoleFeature.Handlers;
 

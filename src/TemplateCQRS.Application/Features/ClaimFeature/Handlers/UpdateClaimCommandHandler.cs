@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
+using FluentValidation.Results;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using TemplateCQRS.Application.Features.ClaimFeature.Commands;
 using TemplateCQRS.Application.Features.ClaimFeature.Validators;
 using TemplateCQRS.Application.Features.RoleFeature.Handlers;
 using TemplateCQRS.Domain.Dto.Claim;
 using TemplateCQRS.Infrastructure.Data;
-using FluentValidation.Results;
-using MediatR;
-using Microsoft.AspNetCore.Http;
 
 namespace TemplateCQRS.Application.Features.ClaimFeature.Handlers;
 

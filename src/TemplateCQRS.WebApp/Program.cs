@@ -1,8 +1,7 @@
+using Serilog;
 using TemplateCQRS.WebApp.Components;
-using TemplateCQRS.WebApp.Components.Notification;
 using TemplateCQRS.WebApp.Data.Extensions;
 using TemplateCQRS.WebApp.Data.Middleware;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;

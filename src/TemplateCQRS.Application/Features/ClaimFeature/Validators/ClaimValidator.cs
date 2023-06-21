@@ -1,6 +1,6 @@
-﻿using TemplateCQRS.Application.Features.ClaimFeature.Commands;
+﻿using FluentValidation;
+using TemplateCQRS.Application.Features.ClaimFeature.Commands;
 using TemplateCQRS.Domain.Dto.Claim;
-using FluentValidation;
 
 namespace TemplateCQRS.Application.Features.ClaimFeature.Validators;
 

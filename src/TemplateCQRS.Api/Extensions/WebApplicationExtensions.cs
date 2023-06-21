@@ -1,6 +1,6 @@
 ﻿
-using TemplateCQRS.Api.Endpoints;
 using Microsoft.EntityFrameworkCore;
+using TemplateCQRS.Api.Endpoints;
 
 namespace TemplateCQRS.Api.Extensions;
 

@@ -16,6 +16,6 @@ public class Role : IdentityRole<Guid>
     [Required][MaxLength(150)] public string Description { get; set; } = string.Empty;
 
     [Required] public int AccessLevel { get; set; } = 1;
-    
+
     public bool IsSystemRole { get; set; }
 }

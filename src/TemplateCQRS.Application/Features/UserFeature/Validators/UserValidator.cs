@@ -1,6 +1,5 @@
 using FluentValidation;
 using TemplateCQRS.Application.Features.UserFeature.Commands;
-using TemplateCQRS.Domain.Dto.User;
 
 namespace TemplateCQRS.Application.Features.UserFeature.Validators;
 

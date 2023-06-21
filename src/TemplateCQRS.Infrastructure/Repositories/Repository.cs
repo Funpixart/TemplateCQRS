@@ -1,6 +1,6 @@
-﻿using TemplateCQRS.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using TemplateCQRS.Infrastructure.Data;
 
 namespace TemplateCQRS.Infrastructure.Repositories;
 
