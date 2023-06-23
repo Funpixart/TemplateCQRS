@@ -1,0 +1,22 @@
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
+  <Metadata>
+    <Identity Id="CqrsTemplateVsExtension.ed68f73c-7a82-48fb-94d1-3708aff2bf10" Version="0.3" Language="en-US" Publisher="Sparkymod" />
+    <DisplayName>CqrsTemplateVsExtension</DisplayName>
+    <Description xml:space="preserve">Context menu to create New CQRS Template with placeholders.</Description>
+    <Tags>cqrs</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" Version="[4.5,)" />
+  </Dependencies>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,18.0)" DisplayName="Visual Studio core editor" />
+  </Prerequisites>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" Path="CqrsTemplateVsExtension.pkgdef" />
+  </Assets>
+</PackageManifest>

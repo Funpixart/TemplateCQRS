@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Create Validator</Title>
+            <Shortcut>createValidator</Shortcut>
+            <Description>Code snippet for a Validator class in CQRS</Description>
+            <Author>Sparkymod</Author>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>Model</ID>
+                    <Default>Model</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp"><![CDATA[
+using FluentValidation;
+
+namespace $Namespace$;
+
+public class Create$Model$CommandValidator : AbstractValidator<Create$Model$Command>
+{
+    public Create$Model$CommandValidator()
+    {
+        RuleFor(x => x.Create$Model$Dto).SetValidator(new Create$Model$DtoValidator());
+    }
+}
+
+public class Update$Model$CommandValidator : AbstractValidator<Update$Model$Command>
+{
+    public Update$Model$CommandValidator()
+    {
+        RuleFor(x => x.Id).NotEqual(0);
+        RuleFor(x => x.Update$Model$Dto).SetValidator(new Update$Model$DtoValidator());
+    }
+}
+
+public class Delete$Model$CommandValidator : AbstractValidator<Delete$Model$Command>
+{
+    public Delete$Model$CommandValidator()
+    {
+        RuleFor(x => x.Id).NotEqual(0);
+    }
+}
+
+public class Update$Model$DtoValidator: AbstractValidator<Update$Model$Dto>
+{
+    public Update$Model$DtoValidator()
+    {
+        // rules here
+    }
+}
+
+public class Create$Model$DtoValidator: AbstractValidator<Create$Model$Dto>
+{
+    public Create$Model$DtoValidator()
+    {
+        // rules here
+    }
+}
+            ]]></Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

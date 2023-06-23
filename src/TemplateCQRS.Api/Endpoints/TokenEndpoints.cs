@@ -11,7 +11,7 @@ public static class TokenEndpoints
 {
     public static void MapTokenEndpoints(this WebApplication app)
     {
-        app.MapPost(ApiRoutes.SecurityRoutes.RequestToken, RequestToken)
+        app.MapPost(ApiRoutes.RequestToken, RequestToken)
             .AllowAnonymous();
     }
 

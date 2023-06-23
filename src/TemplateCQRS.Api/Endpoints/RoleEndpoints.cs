@@ -12,16 +12,16 @@ public static class RoleEndpoints
 {
     public static void MapRoleEndpoints(this WebApplication app)
     {
-        app.MapGet(ApiRoutes.RoleRoutes.Roles, GetAll);
+        app.MapGet(ApiRoutes.Roles, GetAll);
         //.RequireAuthorization();
 
-        app.MapPost($"{ApiRoutes.RoleRoutes.Roles}/{{role}}", CreateRole);
+        app.MapPost($"{ApiRoutes.Roles}/{{role}}", CreateRole);
         //.RequireAuthorization();
 
-        app.MapPut($"{ApiRoutes.RoleRoutes.Roles}/{{roleId}}", UpdateRole);
+        app.MapPut($"{ApiRoutes.Roles}/{{roleId}}", UpdateRole);
         //.RequireAuthorization();
 
-        app.MapDelete($"{ApiRoutes.RoleRoutes.Roles}/{{roleId}}", DeleteRole);
+        app.MapDelete($"{ApiRoutes.Roles}/{{roleId}}", DeleteRole);
         //.RequireAuthorization();
     }
 
@@ -51,7 +51,7 @@ public static class RoleEndpoints
 
         return result.Match(
             success
-                => Results.Created(ApiRoutes.RoleRoutes.Roles, success),
+                => Results.Created(ApiRoutes.Roles, success),
             failure
                 => Results.BadRequest(failure));
     }
@@ -66,7 +66,7 @@ public static class RoleEndpoints
 
         return result.Match(
             success
-                => Results.Accepted(ApiRoutes.RoleRoutes.Roles, success),
+                => Results.Accepted(ApiRoutes.Roles, success),
             failure
                 => Results.BadRequest(failure));
     }

@@ -15,19 +15,19 @@ public static class UserEndpoints
 {
     public static void MapUserEndpoints(this WebApplication app)
     {
-        app.MapGet(ApiRoutes.UserRoutes.Users, GetAll);
+        app.MapGet(ApiRoutes.Users, GetAll);
         //.RequireAuthorization();
 
-        app.MapPost($"{ApiRoutes.UserRoutes.Users}/{{user}}", CreateUser);
+        app.MapPost($"{ApiRoutes.Users}/{{user}}", CreateUser);
         //.RequireAuthorization();
 
-        app.MapPut($"{ApiRoutes.UserRoutes.Users}/{{userId}}", UpdateUser);
+        app.MapPut($"{ApiRoutes.Users}/{{userId}}", UpdateUser);
         //.RequireAuthorization();
 
-        app.MapDelete($"{ApiRoutes.UserRoutes.Users}/{{userId}}", DeleteUser);
+        app.MapDelete($"{ApiRoutes.Users}/{{userId}}", DeleteUser);
         //.RequireAuthorization();
 
-        app.MapPut(ApiRoutes.UserRoutes.UsersChangePassword, ChangePassword);
+        app.MapPut(ApiRoutes.UsersChangePassword, ChangePassword);
         //.RequireAuthorization();
     }
 
@@ -57,7 +57,7 @@ public static class UserEndpoints
 
         return result.Match(
             success
-                => Results.Created(ApiRoutes.UserRoutes.Users, success),
+                => Results.Created(ApiRoutes.Users, success),
             failure
                 => Results.BadRequest(failure));
     }
@@ -72,7 +72,7 @@ public static class UserEndpoints
 
         return result.Match(
             success
-                => Results.Accepted(ApiRoutes.UserRoutes.Users, success),
+                => Results.Accepted(ApiRoutes.Users, success),
             failure
                 => Results.BadRequest(failure));
     }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Delete Handler</Title>
+            <Shortcut>createDeleteHandler</Shortcut>
+            <Description>Code snippet for a Delete Handler class in CQRS</Description>
+            <Author>Sparkymod</Author>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>Model</ID>
+                    <Default>Model</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp"><![CDATA[
+using AutoMapper;
+using FluentValidation.Results;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+
+namespace $Namespace$;
+
+public class Delete$Model$CommandHandler : IRequestHandler<Delete$Model$Command, Payload<Unit, List<ValidationFailure>>>
+{
+    private readonly Delete$Model$CommandValidator _validator;
+    private readonly IRepository<$Model$> _repository;
+
+
+    public Delete$Model$CommandHandler(Delete$Model$CommandValidator validator, IRepository<$Model$> repository)
+    {
+        _validator = validator;
+        _repository = repository;
+    }
+
+    public async Task<Payload<Unit, List<ValidationFailure>>> Handle(Delete$Model$Command request, CancellationToken cancellationToken)
+    {
+        // Catch possible exceptions and let the others exception propagate.
+        try
+        {
+            // Validate the request.
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+
+            // Get the model by the Id
+            var claim = await _repository.GetByIdAsync(request.Id);
+
+            // Logic here
+
+            // If there were any validation errors, return a failure payload, otherwise, success.
+            return validationResult.Errors.Count > 0 ? validationResult.Errors : Unit.Value;
+        }
+        catch (Exception ex)
+        {
+            return ErrorHelper.LogExceptionAndReturnError<DeleteRoleCommandHandler>(ex);
+        }
+    }
+}
+
+            ]]></Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

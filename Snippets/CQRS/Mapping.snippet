@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Create Mapping Profile</Title>
+            <Shortcut>createMapping</Shortcut>
+            <Description>Code snippet for a Mapping Profile class in CQRS</Description>
+            <Author>Sparkymod</Author>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>Model</ID>
+                    <Default>Model</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp"><![CDATA[
+using AutoMapper;
+
+namespace $Namespace$;
+
+public class $Model$MappingProfile : Profile
+{
+    public $Model$MappingProfile()
+    {
+        try
+        {
+            CreateMap<$Model$, Create$Model$Dto>().ReverseMap();
+            CreateMap<$Model$, Info$Model$Dto>().ReverseMap();
+            CreateMap<$Model$, Update$Model$Dto>().ReverseMap();
+        }
+        catch (Exception ex)
+        {
+            var msg = $"Something went wrong mapping, verify if the any navigation property was null. {ex.Message}";
+
+            Log.Logger.Error(msg);
+            throw new Exception(msg);
+        }
+    }
+}
+            ]]></Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

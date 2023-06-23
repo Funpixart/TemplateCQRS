@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Create Query</Title>
+            <Shortcut>createQuery</Shortcut>
+            <Description>Code snippet for a Query class in CQRS</Description>
+            <Author>Sparkymod</Author>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>Model</ID>
+                    <Default>Model</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp"><![CDATA[
+using FluentValidation.Results;
+using MediatR;
+
+namespace $Namespace$;
+
+public record GetAll$Model$sQuery : IRequest<Payload<List<Info$Model$Dto>, List<ValidationFailure>>>;
+            ]]></Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>
