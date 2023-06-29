@@ -11,11 +11,13 @@ public class GetAllRoleQueryHandler : IRequestHandler<GetAllRoleQuery, Payload<L
 {
     private readonly IMapper _mapper;
     private readonly RoleManager<Role> _roleManager;
+    private readonly IRepository<RoleClaim> _claimRepository;
 
-    public GetAllRoleQueryHandler(IMapper mapper, RoleManager<Role> roleManager)
+    public GetAllRoleQueryHandler(IMapper mapper, RoleManager<Role> roleManager, IRepository<RoleClaim> roleClaims)
     {
         _mapper = mapper;
         _roleManager = roleManager;
+        _claimRepository = roleClaims;
     }
 
     public async Task<Payload<List<InfoRoleDto>, List<ValidationFailure>>> Handle(GetAllRoleQuery request, CancellationToken cancellationToken)
@@ -23,8 +25,9 @@ public class GetAllRoleQueryHandler : IRequestHandler<GetAllRoleQuery, Payload<L
         var errors = new List<ValidationFailure>();
         try
         {
-            var result = _roleManager.Roles;
-            if (!result.Any())
+            var roles = _roleManager.Roles.ToList();
+
+            if (!roles.Any())
             {
                 errors.Add(new ValidationFailure
                 {
@@ -33,10 +36,19 @@ public class GetAllRoleQueryHandler : IRequestHandler<GetAllRoleQuery, Payload<L
                 });
                 return errors;
             }
-            var roleMapped = _mapper.Map<List<InfoRoleDto>>(result.ToList());
+            var roleDtos = new List<InfoRoleDto>();
+            var claims = await _claimRepository.GetAllAsync(cancellationToken);
+
+            foreach (var role in roles)
+            {
+                var roleDto = _mapper.Map<InfoRoleDto>(role);
+
+                roleDto.Claims = claims.Where(x => x.RoleId == role.Id).Select(x => x.ClaimType).ToList();
+                roleDtos.Add(roleDto);
+            }
 
             // If there were any validation errors, return a failure payload.
-            return errors.Count > 0 ? errors : roleMapped;
+            return errors.Count > 0 ? errors : roleDtos;
         }
         catch (Exception ex)
         {

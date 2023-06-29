@@ -7,16 +7,18 @@ public static class ApiRoutes
     public const string Base = Root + Version;
 
     // Roles routes
-    public const string Roles = Base + "roles";
+    public const string Roles = Base + "roles/";
 
     // Users routes
-    public const string Users = Base + "users";
-    public const string UsersChangePassword = Users + "/changepass";
+    public const string Users = Base + "users/";
+    public const string GetUserBy = Users + "getBy/";
+    public const string UsersChangePassword = Users + "changepass/";
+    public const string CreateUser = Users + "create/";
 
     // Security
-    public const string Security = Base + "security";
-    public const string RequestToken = Security + "/requestToken";
+    public const string Security = Base + "security/";
+    public const string RequestToken = Security + "requestToken/";
 
-    // Claims routes
-    public const string Claim = Base + "claims";
+    //Claims routes
+    public const string Claim = Base + "claims/";
 }

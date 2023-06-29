@@ -1,4 +1,6 @@
 ﻿
+using TemplateCQRS.Domain.Dto.Role;
+
 namespace TemplateCQRS.Domain.Dto.User;
 
 public class InfoUserDto
@@ -11,5 +13,5 @@ public class InfoUserDto
     public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime LastLogin { get; set; }
-    public IList<string> Roles { get; set; }
+    public IList<InfoRoleDto>? RolesDto { get; set; }
 }

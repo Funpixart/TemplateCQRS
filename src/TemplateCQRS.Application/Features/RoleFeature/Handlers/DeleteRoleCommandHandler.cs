@@ -23,10 +23,11 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Paylo
         // Catch possible exceptions and let the others exception propagate.
         try
         {
-            var validationResult = new ValidationResult();
+            // Validate the request.
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
             // First find the role with the Id
-            var roleFound = await _roleManager.FindByIdAsync(request.Id.ToString());
+            var roleFound = _roleManager.Roles.FirstOrDefault(x => x.Id == request.Id);
 
             if (roleFound is null)
             {
@@ -37,12 +38,8 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Paylo
                 });
             }
 
-            // Validate the request.
-            validationResult = await _validator.ValidateAsync(request, cancellationToken);
-
             // If there were any validation errors, return a failure payload.
             if (validationResult.Errors.Count > 0) return validationResult.Errors;
-
 
             if (roleFound!.IsSystemRole)
             {
@@ -63,7 +60,6 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Paylo
                     validationResult.Errors.AddIdentityErrorsToValidationFailures(result.Errors);
                 }
             }
-
 
             // If there were any validation errors, return a failure payload, otherwise, success.
             return validationResult.Errors.Count > 0 ? validationResult.Errors : Unit.Value;

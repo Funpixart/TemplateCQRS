@@ -27,28 +27,26 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Paylo
             // Validate the request.
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
-            // If there were any validation errors, return a failure payload.
-            if (validationResult.Errors.Count > 0) return validationResult.Errors;
-
             var userFound = await _userManager.FindByIdAsync(request.Id.ToString());
 
-            if (userFound is not null)
-            {
-                var result = await _userManager.DeleteAsync(userFound);
-
-                // Add any error on creating the model.
-                if (result.Errors.Any())
-                {
-                    validationResult.Errors.AddIdentityErrorsToValidationFailures(result.Errors);
-                }
-            }
-            else
+            if (userFound is null)
             {
                 validationResult.Errors.Add(new ValidationFailure
                 {
                     ErrorCode = StatusCodes.Status400BadRequest.ToString(),
                     ErrorMessage = "User not found with the id provided."
                 });
+            }
+
+            // If there were any validation errors, return a failure payload.
+            if (validationResult.Errors.Count > 0) return validationResult.Errors;
+
+            var result = await _userManager.DeleteAsync(userFound!);
+
+            // Add any error on creating the model.
+            if (result.Errors.Any())
+            {
+                validationResult.Errors.AddIdentityErrorsToValidationFailures(result.Errors);
             }
 
             // If there were any validation errors, return a failure payload, otherwise, success.

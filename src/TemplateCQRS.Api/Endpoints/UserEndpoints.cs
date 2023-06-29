@@ -18,17 +18,20 @@ public static class UserEndpoints
         app.MapGet(ApiRoutes.Users, GetAll);
         //.RequireAuthorization();
 
-        app.MapPost($"{ApiRoutes.Users}/{{user}}", CreateUser);
-        //.RequireAuthorization();
+        app.MapGet($"{ApiRoutes.GetUserBy}", GetUserBy)
+            .RequireAuthorization();
 
-        app.MapPut($"{ApiRoutes.Users}/{{userId}}", UpdateUser);
-        //.RequireAuthorization();
+        app.MapPost($"{ApiRoutes.CreateUser}", CreateUser)
+            .RequireAuthorization();
 
-        app.MapDelete($"{ApiRoutes.Users}/{{userId}}", DeleteUser);
-        //.RequireAuthorization();
+        app.MapPut($"{ApiRoutes.Users}{{userId}}", UpdateUser)
+            .RequireAuthorization();
 
-        app.MapPut(ApiRoutes.UsersChangePassword, ChangePassword);
-        //.RequireAuthorization();
+        app.MapDelete($"{ApiRoutes.Users}{{userId}}", DeleteUser)
+            .RequireAuthorization();
+
+        app.MapPut(ApiRoutes.UsersChangePassword, ChangePassword)
+            .RequireAuthorization();
     }
 
     [SwaggerSummary("Lista de usuarios")]
@@ -43,6 +46,29 @@ public static class UserEndpoints
         return result.Match(
             success
                 => success.Any() ? Results.Ok(success) : Results.NoContent(),
+            failure
+                => Results.BadRequest(failure));
+    }
+
+    [SwaggerSummary("Lista de usuarios")]
+    [SwaggerDescription("Este endpoint retorna una lista de usuarios.")]
+    [ProducesResponseType(typeof(InfoUserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationFailure), StatusCodes.Status400BadRequest)]
+    public static async Task<IResult> GetUserBy(string? id, string? name, string? email, IMediator mediator)
+    {
+        var getUserDto = new GetUserDto
+        {
+            Id = string.IsNullOrEmpty(id) ? null : Guid.Parse(id),
+            UserName = string.IsNullOrEmpty(name) ? null : name,
+            Email = string.IsNullOrEmpty(email) ? null : email
+        };
+
+        var query = new GetUserByQuery(getUserDto);
+        var result = await mediator.Send(query);
+
+        return result.Match(
+            success
+                => Results.Ok(success),
             failure
                 => Results.BadRequest(failure));
     }

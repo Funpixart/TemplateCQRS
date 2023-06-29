@@ -40,8 +40,7 @@ public class UpdateClaimCommandHandler : IRequestHandler<UpdateClaimCommand, Pay
             _mapper.Map(request.UpdateClaimDto, claimFound);
             if (claimFound is not null)
             {
-                var result = await _repo.UpdateAsync(claimFound);
-
+                _ = await _repo.UpdateAsync(claimFound);
             }
             else
             {
@@ -53,11 +52,7 @@ public class UpdateClaimCommandHandler : IRequestHandler<UpdateClaimCommand, Pay
             }
 
             // If there were any validation errors, return a failure payload.
-
             return validationResult.Errors.Count > 0 ? validationResult.Errors : _mapper.Map<InfoClaimDto>(claimFound);
-
-
-
         }
         catch (Exception ex)
         {

@@ -9,7 +9,6 @@ namespace TemplateCQRS.Domain.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override int Id { get; set; }
-        public bool ClaimValue { get; set; }
 
     }
 

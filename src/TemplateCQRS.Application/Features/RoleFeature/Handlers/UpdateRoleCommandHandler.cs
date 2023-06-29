@@ -13,12 +13,15 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Paylo
     private readonly IMapper _mapper;
     private readonly UpdateRoleCommandValidator _validator;
     private readonly RoleManager<Role> _roleManager;
+    private readonly IRepository<RoleClaim> _claimRepository;
 
-    public UpdateRoleCommandHandler(IMapper mapper, UpdateRoleCommandValidator validator, RoleManager<Role> roleManager)
+    public UpdateRoleCommandHandler(IMapper mapper, UpdateRoleCommandValidator validator, RoleManager<Role> roleManager,
+        IRepository<RoleClaim> claimRepository)
     {
         _mapper = mapper;
         _validator = validator;
         _roleManager = roleManager;
+        _claimRepository = claimRepository;
     }
 
     public async Task<Payload<InfoRoleDto, List<ValidationFailure>>> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
@@ -26,10 +29,10 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Paylo
         // Catch possible exceptions and let the others exception propagate.
         try
         {
-            var validationResult = new ValidationResult();
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
             // First find the role with the Id
-            var roleFound = await _roleManager.FindByIdAsync(request.Id.ToString());
+            var roleFound = _roleManager.Roles.FirstOrDefault(x => x.Id == request.Id);
 
             if (roleFound is null)
             {
@@ -40,14 +43,11 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Paylo
                 });
             }
 
-            // Validate the request.
-            validationResult = await _validator.ValidateAsync(request, cancellationToken);
-
             // If there were any validation errors, return a failure payload.
             if (validationResult.Errors.Count > 0) return validationResult.Errors;
 
-            // Map the dto to the model.
-            _mapper.Map(request.UpdateRoleDto, roleFound);
+            // Map the dto to the model. The _ means discard it since it will not be used.
+            _ = _mapper.Map(request.UpdateRoleDto, roleFound);
 
             if (roleFound!.IsSystemRole)
             {
@@ -68,8 +68,18 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Paylo
                 }
             }
 
+            var claims = await _claimRepository.GetAllAsync(cancellationToken);
+            var roleDto = new InfoRoleDto();
+
+            _ = _mapper.Map(roleFound, roleDto);
+
+            if (claims.Any())
+            {
+                roleDto.Claims = claims.Where(x => x.RoleId == roleFound.Id).Select(x => x.ClaimType).ToList();
+            }
+
             // If there were any validation errors, return a failure payload.
-            return validationResult.Errors.Count > 0 ? validationResult.Errors : _mapper.Map<InfoRoleDto>(roleFound);
+            return validationResult.Errors.Count > 0 ? validationResult.Errors : roleDto;
         }
         catch (Exception ex)
         {

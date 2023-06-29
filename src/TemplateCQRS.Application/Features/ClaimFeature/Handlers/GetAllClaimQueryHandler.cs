@@ -4,19 +4,16 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using TemplateCQRS.Application.Features.ClaimFeature.Queries;
 using TemplateCQRS.Domain.Dto.Claim;
-using TemplateCQRS.Infrastructure.Data;
 
 namespace TemplateCQRS.Application.Features.ClaimFeature.Handlers;
 
 public class GetAllClaimQueryHandler : IRequestHandler<GetAllClaimsQuery, Payload<List<InfoClaimDto>, List<ValidationFailure>>>
 {
     private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<RoleClaim> _claimRepository;
 
-    public GetAllClaimQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IRepository<RoleClaim> claimRepository)
+    public GetAllClaimQueryHandler(IMapper mapper, IRepository<RoleClaim> claimRepository)
     {
-        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _claimRepository = claimRepository;
     }
@@ -48,7 +45,7 @@ public class GetAllClaimQueryHandler : IRequestHandler<GetAllClaimsQuery, Payloa
             }
 
             // If there were any validation errors, return a failure payload.
-            return errors.Count > 0 ? errors : Payload<List<InfoClaimDto>, List<ValidationFailure>>.Success(claimMapped!);
+            return errors.Count > 0 ? errors : claimMapped!;
         }
         catch (Exception ex)
         {

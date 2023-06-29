@@ -53,9 +53,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Paylo
                 validationResult.Errors.AddIdentityErrorsToValidationFailures(userResult.Errors);
             }
 
-            var userRoles = await _userManager.GetRolesAsync(user);
             var mappedUser = _mapper.Map<InfoUserDto>(user);
-            mappedUser.Roles = userRoles;
 
             // If there were any validation errors, return a failure payload.
             if (validationResult.Errors.Count > 0) return validationResult.Errors;

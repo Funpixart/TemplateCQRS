@@ -1,5 +1,6 @@
 using FluentValidation;
 using TemplateCQRS.Application.Features.UserFeature.Commands;
+using TemplateCQRS.Application.Features.UserFeature.Queries;
 
 namespace TemplateCQRS.Application.Features.UserFeature.Validators;
 
@@ -73,5 +74,30 @@ public class UpdateUserDtoValidator : AbstractValidator<UpdateUserDto>
             .NotEmpty().WithMessage("Email is required.")
             .EmailAddress().WithMessage("Email is not valid.")
             .When(x => !string.IsNullOrEmpty(x.Email));
+    }
+}
+
+public class GetUserByQueryValidator : AbstractValidator<GetUserByQuery>
+{
+    public GetUserByQueryValidator()
+    {
+        RuleFor(x => x.GetUserDto).SetValidator(new GetUserDtoValidator());
+    }
+}
+
+public class GetUserDtoValidator : AbstractValidator<GetUserDto>
+{
+    public GetUserDtoValidator()
+    {
+        RuleFor(x => x.Id).NotEqual(Guid.Empty)
+            .When(x => x.Id is not null);
+
+        RuleFor(x => x.Email)
+            .EmailAddress().WithMessage("Email is not valid.")
+            .When(x => !string.IsNullOrEmpty(x.Email));
+
+        RuleFor(x => x.UserName)
+            .Length(4, 75).WithMessage("Username must be between 4 and 75 characters.")
+            .When(x => !string.IsNullOrEmpty(x.UserName));
     }
 }

@@ -16,16 +16,16 @@ public static class ClaimEndpoints
         app.MapGet(ApiRoutes.Claim, GetAll);
         //  .RequireAuthorization();
 
-        app.MapGet($"{ApiRoutes.Claim}/{{roleId}}", GetAllById);
+        app.MapGet($"{ApiRoutes.Claim}{{roleId}}", GetAllById);
         // .RequireAuthorization();
 
-        app.MapPost($"{ApiRoutes.Claim}/{{claim}}", CreateClaim);
+        app.MapPost($"{ApiRoutes.Claim}{{claim}}", CreateClaim);
         //  .RequireAuthorization();
 
-        app.MapPut($"{ApiRoutes.Claim}/{{claimId}}", UpdateClaim);
+        app.MapPut($"{ApiRoutes.Claim}{{claimId}}", UpdateClaim);
         // .RequireAuthorization();
 
-        app.MapDelete($"{ApiRoutes.Claim}/{{claimId}}", DeleteClaim);
+        app.MapDelete($"{ApiRoutes.Claim}{{claimId}}", DeleteClaim);
         // .RequireAuthorization();
     }
 
@@ -106,3 +106,4 @@ public static class ClaimEndpoints
                 => Results.BadRequest(failure));
     }
 }
+

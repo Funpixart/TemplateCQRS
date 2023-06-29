@@ -26,7 +26,7 @@ public class GetAllClaimByRoleQueryHandler : IRequestHandler<GetAllClaimsByRoleQ
         var errors = new List<ValidationFailure>();
         try
         {
-            var result = await _claimRepository.GetAllAsync();
+            var result = await _claimRepository.GetAllAsync(cancellationToken);
             if (!result.Any())
             {
                 errors.Add(new ValidationFailure
@@ -48,7 +48,7 @@ public class GetAllClaimByRoleQueryHandler : IRequestHandler<GetAllClaimsByRoleQ
             }
 
             // If there were any validation errors, return a failure payload.
-            return errors.Count > 0 ? errors : Payload<List<InfoClaimDto>, List<ValidationFailure>>.Success(claimMapped!);
+            return errors.Count > 0 ? errors : claimMapped!;
         }
         catch (Exception ex)
         {

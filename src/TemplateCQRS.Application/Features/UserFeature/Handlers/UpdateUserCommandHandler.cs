@@ -26,7 +26,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Paylo
         // Catch possible exceptions and let the others exception propagate.
         try
         {
-            var validationResult = new ValidationResult();
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
             // First find the user.
             var userFound = await _userManager.FindByIdAsync(request.Id.ToString());
@@ -39,9 +39,6 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Paylo
                     ErrorMessage = "User not found with the id provided."
                 });
             }
-
-            // Validate the request.
-            validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
             if (validationResult.Errors.Count > 0) return validationResult.Errors;
 
