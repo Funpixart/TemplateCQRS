@@ -13,16 +13,12 @@ public static class RoleEndpoints
     public static void MapRoleEndpoints(this WebApplication app)
     {
         app.MapGet(ApiRoutes.Roles, GetAll);
-        //.RequireAuthorization();
 
-        app.MapPost($"{ApiRoutes.Roles}{{role}}", CreateRole)
-            .RequireAuthorization();
+        app.MapPost($"{ApiRoutes.Roles}{{role}}", CreateRole);
 
-        app.MapPut($"{ApiRoutes.Roles}{{roleId}}", UpdateRole)
-            .RequireAuthorization();
+        app.MapPut($"{ApiRoutes.Roles}{{roleId}}", UpdateRole);
 
-        app.MapDelete($"{ApiRoutes.Roles}{{roleId}}", DeleteRole)
-            .RequireAuthorization();
+        app.MapDelete($"{ApiRoutes.Roles}{{roleId}}", DeleteRole);
     }
 
     [SwaggerSummary("Lista de roles")]
@@ -38,7 +34,8 @@ public static class RoleEndpoints
             success
                 => success.Any() ? Results.Ok(success) : Results.NoContent(),
             failure
-                => Results.BadRequest(failure));
+                => failure.Any(x => x.ErrorCode == StatusCodes.Status204NoContent.ToString()) 
+                    ? Results.NoContent() : Results.BadRequest(failure));
     }
 
     [SwaggerSummary("Agrega un role")]
@@ -53,7 +50,8 @@ public static class RoleEndpoints
             success
                 => Results.Created(ApiRoutes.Roles, success),
             failure
-                => Results.BadRequest(failure));
+                => failure.Any(x => x.ErrorCode == StatusCodes.Status204NoContent.ToString()) 
+                    ? Results.NoContent() : Results.BadRequest(failure));
     }
 
     [SwaggerSummary("Actualiza un role")]

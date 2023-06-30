@@ -14,19 +14,14 @@ public static class ClaimEndpoints
     public static void MapClaimEndpoints(this WebApplication app)
     {
         app.MapGet(ApiRoutes.Claim, GetAll);
-        //  .RequireAuthorization();
 
         app.MapGet($"{ApiRoutes.Claim}{{roleId}}", GetAllById);
-        // .RequireAuthorization();
 
         app.MapPost($"{ApiRoutes.Claim}{{claim}}", CreateClaim);
-        //  .RequireAuthorization();
 
         app.MapPut($"{ApiRoutes.Claim}{{claimId}}", UpdateClaim);
-        // .RequireAuthorization();
 
         app.MapDelete($"{ApiRoutes.Claim}{{claimId}}", DeleteClaim);
-        // .RequireAuthorization();
     }
 
     [SwaggerSummary("Lista de permisos")]
@@ -42,7 +37,8 @@ public static class ClaimEndpoints
             success
                 => success.Any() ? Results.Ok(success) : Results.NoContent(),
             failure
-                => Results.BadRequest(failure));
+                => failure.Any(x => x.ErrorCode == StatusCodes.Status204NoContent.ToString()) 
+                    ? Results.NoContent() : Results.BadRequest(failure));
     }
 
     [SwaggerSummary("Lista de permisos por role")]
@@ -58,7 +54,8 @@ public static class ClaimEndpoints
             success
                 => success.Any() ? Results.Ok(success) : Results.NoContent(),
             failure
-                => Results.BadRequest(failure));
+                => failure.Any(x => x.ErrorCode == StatusCodes.Status204NoContent.ToString())
+                    ? Results.NoContent() : Results.BadRequest(failure));
     }
 
     [SwaggerSummary("Agrega un permiso")]

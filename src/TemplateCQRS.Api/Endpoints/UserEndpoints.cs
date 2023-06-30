@@ -16,22 +16,16 @@ public static class UserEndpoints
     public static void MapUserEndpoints(this WebApplication app)
     {
         app.MapGet(ApiRoutes.Users, GetAll);
-        //.RequireAuthorization();
 
-        app.MapGet($"{ApiRoutes.GetUserBy}", GetUserBy)
-            .RequireAuthorization();
+        app.MapGet($"{ApiRoutes.GetUserBy}", GetUserBy);
 
-        app.MapPost($"{ApiRoutes.CreateUser}", CreateUser)
-            .RequireAuthorization();
+        app.MapPost($"{ApiRoutes.CreateUser}", CreateUser);
 
-        app.MapPut($"{ApiRoutes.Users}{{userId}}", UpdateUser)
-            .RequireAuthorization();
+        app.MapPut($"{ApiRoutes.Users}{{userId}}", UpdateUser);
 
-        app.MapDelete($"{ApiRoutes.Users}{{userId}}", DeleteUser)
-            .RequireAuthorization();
+        app.MapDelete($"{ApiRoutes.Users}{{userId}}", DeleteUser);
 
-        app.MapPut(ApiRoutes.UsersChangePassword, ChangePassword)
-            .RequireAuthorization();
+        app.MapPut(ApiRoutes.UsersChangePassword, ChangePassword);
     }
 
     [SwaggerSummary("Lista de usuarios")]
@@ -47,7 +41,8 @@ public static class UserEndpoints
             success
                 => success.Any() ? Results.Ok(success) : Results.NoContent(),
             failure
-                => Results.BadRequest(failure));
+                => failure.Any(x => x.ErrorCode == StatusCodes.Status204NoContent.ToString()) 
+                    ? Results.NoContent() : Results.BadRequest(failure));
     }
 
     [SwaggerSummary("Lista de usuarios")]
@@ -70,7 +65,8 @@ public static class UserEndpoints
             success
                 => Results.Ok(success),
             failure
-                => Results.BadRequest(failure));
+                => failure.Any(x => x.ErrorCode == StatusCodes.Status204NoContent.ToString()) 
+                    ? Results.NoContent() : Results.BadRequest(failure));
     }
 
     [SwaggerSummary("Agrega un usuario")]

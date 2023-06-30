@@ -5,7 +5,7 @@ using TemplateCQRS.Infrastructure.Common;
 
 namespace TemplateCQRS.Infrastructure.Data;
 
-public partial class AppDbContext : IdentityDbContext<User, Role, Guid>
+public partial class AppDbContext : IdentityDbContext<User, Role, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
