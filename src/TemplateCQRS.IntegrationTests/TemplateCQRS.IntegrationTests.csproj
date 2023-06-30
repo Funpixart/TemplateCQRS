@@ -25,4 +25,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TemplateCQRS.Api\TemplateCQRS.Api.csproj" />
+  </ItemGroup>
+
 </Project>

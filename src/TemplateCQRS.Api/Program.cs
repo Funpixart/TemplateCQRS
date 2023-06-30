@@ -5,60 +5,68 @@ using TemplateCQRS.Api.Middleware;
 using TemplateCQRS.Domain.Models;
 using TemplateCQRS.Infrastructure.Data;
 
-var builder = WebApplication.CreateBuilder(args);
-var config = builder.Configuration;
+namespace TemplateCQRS.Api;
 
-// Set up logging
-builder.Host.UseSerilog(SerilogExtensions.InitializeSerilog(config));
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+        var config = builder.Configuration;
 
-// Register controllers and API endpoints
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
+        // Set up logging
+        builder.Host.UseSerilog(SerilogExtensions.InitializeSerilog(config));
 
-// Set up Swagger documentation
-builder.Services.AddSwaggerGenWithOptions();
+        // Register controllers and API endpoints
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
 
-// DbContext and Identity
-builder.Services.AddCustomDbContext<AppDbContext>(config);
-builder.Services.AddCustomIdentity<User, Role, AppDbContext, Guid>();
-builder.Services.AddAuthenticationWithJwt(config);
-builder.Services.AddAuthorization();
+        // Set up Swagger documentation
+        builder.Services.AddSwaggerGenWithOptions();
 
-// Add custom services
-builder.Services.AddUnitOfWork();
-builder.Services.AddGenericRepository();
+        // DbContext and Identity
+        builder.Services.AddCustomDbContext<AppDbContext>(config);
+        builder.Services.AddCustomIdentity<User, Role, AppDbContext, Guid>();
+        builder.Services.AddAuthenticationWithJwt(config);
+        builder.Services.AddAuthorization();
 
-// Validators
-builder.Services.AddValidatorsFromAssemblyContaining(typeof(TemplateCQRS.Application.Program));
+        // Add custom services
+        builder.Services.AddUnitOfWork();
+        builder.Services.AddGenericRepository();
 
-// AutoMapper
-builder.Services.AddAutoMapper(typeof(TemplateCQRS.Application.Program));
+        // Validators
+        builder.Services.AddValidatorsFromAssemblyContaining(typeof(TemplateCQRS.Application.Program));
 
-// Set up MediatR for command and query handling
-builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(TemplateCQRS.Application.Program).Assembly));
+        // AutoMapper
+        builder.Services.AddAutoMapper(typeof(TemplateCQRS.Application.Program));
 
-// Build the application
-var app = builder.Build();
+        // Set up MediatR for command and query handling
+        builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(TemplateCQRS.Application.Program).Assembly));
 
-// Middleware to catch exceptions
-app.UseExceptionCatcherMiddleware();
+        // Build the application
+        var app = builder.Build();
 
-// Set up Serilog request logging
-app.UseSerilogRequestLogging();
+        // Middleware to catch exceptions
+        app.UseExceptionCatcherMiddleware();
 
-// Apply any pending migrations
-app.ApplyMigrations<AppDbContext>();
+        // Set up Serilog request logging
+        app.UseSerilogRequestLogging();
 
-// Set up Swagger UI
-app.UseSwagger();
-app.UseSwaggerUI();
+        // Apply any pending migrations
+        app.ApplyMigrations<AppDbContext>();
 
-// Authorization & Authentication
-app.UseAuthentication();
-app.UseAuthorization();
+        // Set up Swagger UI
+        app.UseSwagger();
+        app.UseSwaggerUI();
 
-// Map application endpoints and controllers
-app.MapApplicationEndpoints();
-app.MapControllers();
+        // Authorization & Authentication
+        app.UseAuthentication();
+        app.UseAuthorization();
 
-app.Run();
+        // Map application endpoints and controllers
+        app.MapApplicationEndpoints();
+        app.MapControllers();
+
+        app.Run();
+    }
+}
