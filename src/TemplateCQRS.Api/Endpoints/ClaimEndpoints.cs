@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using TemplateCQRS.Application.Common;
 using TemplateCQRS.Application.Features.ClaimFeature.Commands;
 using TemplateCQRS.Application.Features.ClaimFeature.Queries;
@@ -28,6 +29,7 @@ public static class ClaimEndpoints
     [SwaggerDescription("Este endpoint retorna una lista de permisos.")]
     [ResponseDescription(StatusCodes.Status200OK, "Success")]
     [ProducesResponseType(typeof(ValidationFailure), StatusCodes.Status400BadRequest)]
+    [OutputCache(PolicyName = "getAllClaims")]
     public static async Task<IResult> GetAll(IMediator mediator)
     {
         var query = new GetAllClaimsQuery();

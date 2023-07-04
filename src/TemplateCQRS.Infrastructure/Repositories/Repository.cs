@@ -15,6 +15,9 @@ public class Repository<T> : IRepository<T> where T : class
 
     public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default) => await _unitOfWork.ReadAll<T>().ToListAsync(cancellationToken);
 
+    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+        => await _unitOfWork.ReadAll<T>().Where(predicate).ToListAsync(cancellationToken);
+
     public async Task<T?> GetByIdAsync(int id) => await _unitOfWork.FindByKey<T>(id);
 
     public async Task<T> CreateAsync(T entity)

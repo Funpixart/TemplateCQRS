@@ -3,6 +3,7 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using TemplateCQRS.Application.Features.UserFeature.Queries;
 
 namespace TemplateCQRS.Application.Features.UserFeature.Handlers;
@@ -31,7 +32,7 @@ public class GetAllUserQueryHandler : IRequestHandler<GetAllUserQuery, Payload<L
         var errors = new List<ValidationFailure>();
         try
         {
-            var users = _userManager.Users.ToList();
+            var users = await _userManager.Users.ToListAsync(cancellationToken);
             if (!users.Any())
             {
                 errors.Add(new ValidationFailure
@@ -42,9 +43,7 @@ public class GetAllUserQueryHandler : IRequestHandler<GetAllUserQuery, Payload<L
                 return errors;
             }
 
-            var roles = _roleManager.Roles.ToList();
-            var claims = await _claimRepository.GetAllAsync(cancellationToken);
-            var userRoles = await _userRoleRepository.GetAllAsync(cancellationToken);
+            var roles = await _roleManager.Roles.ToListAsync(cancellationToken);
 
             var infoUserDtos = new List<InfoUserDto>();
 
@@ -55,19 +54,19 @@ public class GetAllUserQueryHandler : IRequestHandler<GetAllUserQuery, Payload<L
                 infoUserDto.RolesDto = new List<InfoRoleDto>();
 
                 // Get all roles for the current user
-                var userRoleIds = userRoles.Where(ur => ur.UserId == user.Id).Select(ur => ur.RoleId);
+                var userRoleIds = await _userRoleRepository.GetAllAsync(ur => ur.UserId == user.Id);
 
                 foreach (var role in roles)
                 {
                     // This user does not have this role, so we skip to the next role
-                    if (!userRoleIds.Contains(role.Id)) continue;
+                    if (!userRoleIds.Select(ur => ur.RoleId).Contains(role.Id)) continue;
 
                     var roleDto = new InfoRoleDto();
-                    var claimList = claims.Where(x => x.RoleId == role.Id).Select(x => x.ClaimType).ToList();
+                    var claimList = await _claimRepository.GetAllAsync(x => x.RoleId == role.Id);
 
                     _ = _mapper.Map(role, roleDto);
 
-                    roleDto.Claims = claimList;
+                    roleDto.Claims = claimList.Select(x => x.ClaimType).ToList();
                     infoUserDto.RolesDto.Add(roleDto);
                 }
 

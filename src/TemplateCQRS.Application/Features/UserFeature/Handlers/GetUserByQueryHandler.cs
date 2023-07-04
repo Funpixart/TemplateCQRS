@@ -89,9 +89,8 @@ public class GetUserByQueryHandler : IRequestHandler<GetUserByQuery, Payload<Inf
             var infoUserDto = new InfoUserDto();
             _ = _mapper.Map(user, infoUserDto);
             infoUserDto.RolesDto = new List<InfoRoleDto>();
-            var roles = _roleManager.Roles.ToList();
 
-            foreach (var role in roles)
+            foreach (var role in _roleManager.Roles)
             {
                 if (!userRolesName.Contains(role.Name)) continue;
 

@@ -11,6 +11,16 @@ public interface IRepository<T> where T : class
     Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
+    ///     Asynchronously retrieves all entities of type T that satisfy the specified predicate from the data store.
+    /// </summary>
+    /// <param name="predicate">The predicate to filter the entities.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>
+    ///     A task that represents the asynchronous retrieval operation,
+    ///     with an enumerable collection of entities of type T that satisfy the predicate. </returns>
+    Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+
+    /// <summary>
     ///     Asynchronously retrieves an entity of type T with the specified id from the data store.
     /// </summary>
     /// <param name="id">The id of the entity to retrieve.</param>

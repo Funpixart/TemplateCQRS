@@ -20,6 +20,11 @@ public class Program
         // Register controllers and API endpoints
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddOutputCache(options =>
+        {
+            options.AddPolicy("getAllClaims", optionBuilder 
+                => optionBuilder.Expire(TimeSpan.FromHours(1)).Tag("claims"));
+        });
 
         // Set up Swagger documentation
         builder.Services.AddSwaggerGenWithOptions();
@@ -58,6 +63,8 @@ public class Program
         // Set up Swagger UI
         app.UseSwagger();
         app.UseSwaggerUI();
+
+        app.UseOutputCache();
 
         // Authorization & Authentication
         app.UseAuthentication();

@@ -3,6 +3,7 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.OutputCaching;
 using TemplateCQRS.Application.Features.ClaimFeature.Commands;
 using TemplateCQRS.Application.Features.ClaimFeature.Validators;
 using TemplateCQRS.Domain.Dto.Claim;
@@ -15,13 +16,18 @@ public class CreateClaimCommandHandler : IRequestHandler<CreateClaimCommand, Pay
     private readonly CreateClaimCommandValidator _validator;
     private readonly IRepository<RoleClaim> _claimRepository;
     private readonly RoleManager<Role> _roleRepository;
+    private readonly IOutputCacheStore _outputCacheStore;
 
-    public CreateClaimCommandHandler(IMapper mapper, CreateClaimCommandValidator validator, IRepository<RoleClaim> claimRepository, RoleManager<Role> roleRepository)
+    public CreateClaimCommandHandler(IMapper mapper, CreateClaimCommandValidator validator, 
+        IRepository<RoleClaim> claimRepository, 
+        RoleManager<Role> roleRepository, 
+        IOutputCacheStore outputCacheStore)
     {
         _mapper = mapper;
         _validator = validator;
         _claimRepository = claimRepository;
         _roleRepository = roleRepository;
+        _outputCacheStore = outputCacheStore;
     }
     public async Task<Payload<InfoClaimDto, List<ValidationFailure>>> Handle(CreateClaimCommand request, CancellationToken cancellationToken)
     {
@@ -46,8 +52,10 @@ public class CreateClaimCommandHandler : IRequestHandler<CreateClaimCommand, Pay
             }
 
             // Create the model.
-            var result = await _claimRepository.CreateAsync(claim);
+            await _claimRepository.CreateAsync(claim);
 
+            // Refresh cache for new data.
+            await _outputCacheStore.EvictByTagAsync("getAllClaim", cancellationToken);
 
             // If there were any validation errors, return a failure payload.
             if (validationResult.Errors.Count > 0) return validationResult.Errors;
