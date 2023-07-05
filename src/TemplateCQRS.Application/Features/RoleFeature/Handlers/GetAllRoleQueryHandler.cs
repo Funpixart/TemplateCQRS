@@ -3,6 +3,7 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using TemplateCQRS.Application.Features.RoleFeature.Queries;
 
 namespace TemplateCQRS.Application.Features.RoleFeature.Handlers;
@@ -25,7 +26,7 @@ public class GetAllRoleQueryHandler : IRequestHandler<GetAllRoleQuery, Payload<L
         var errors = new List<ValidationFailure>();
         try
         {
-            var roles = _roleManager.Roles.ToList();
+            var roles = await _roleManager.Roles.ToListAsync(cancellationToken);
 
             if (!roles.Any())
             {

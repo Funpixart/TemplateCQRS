@@ -20,11 +20,6 @@ public class Program
         // Register controllers and API endpoints
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddOutputCache(options =>
-        {
-            options.AddPolicy("getAllClaims", optionBuilder 
-                => optionBuilder.Expire(TimeSpan.FromHours(1)).Tag("claims"));
-        });
 
         // Set up Swagger documentation
         builder.Services.AddSwaggerGenWithOptions();
@@ -38,6 +33,9 @@ public class Program
         // Add custom services
         builder.Services.AddUnitOfWork();
         builder.Services.AddGenericRepository();
+
+        // Add OutputCache with policies
+        builder.Services.AddOutputCacheWithPolicy();
 
         // Validators
         builder.Services.AddValidatorsFromAssemblyContaining(typeof(TemplateCQRS.Application.Program));
@@ -64,6 +62,7 @@ public class Program
         app.UseSwagger();
         app.UseSwaggerUI();
 
+        // Use the OutputCache
         app.UseOutputCache();
 
         // Authorization & Authentication

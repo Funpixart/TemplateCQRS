@@ -14,7 +14,8 @@ public static class ClaimEndpoints
 {
     public static void MapClaimEndpoints(this WebApplication app)
     {
-        app.MapGet(ApiRoutes.Claim, GetAll);
+        app.MapGet(ApiRoutes.Claim, GetAll)
+            .CacheOutput("getAllClaims");
 
         app.MapGet($"{ApiRoutes.Claim}{{roleId}}", GetAllById);
 
@@ -29,7 +30,6 @@ public static class ClaimEndpoints
     [SwaggerDescription("Este endpoint retorna una lista de permisos.")]
     [ResponseDescription(StatusCodes.Status200OK, "Success")]
     [ProducesResponseType(typeof(ValidationFailure), StatusCodes.Status400BadRequest)]
-    [OutputCache(PolicyName = "getAllClaims")]
     public static async Task<IResult> GetAll(IMediator mediator)
     {
         var query = new GetAllClaimsQuery();

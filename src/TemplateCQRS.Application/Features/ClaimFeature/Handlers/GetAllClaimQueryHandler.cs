@@ -23,7 +23,7 @@ public class GetAllClaimQueryHandler : IRequestHandler<GetAllClaimsQuery, Payloa
         var errors = new List<ValidationFailure>();
         try
         {
-            var result = await _claimRepository.GetAllAsync();
+            var result = await _claimRepository.GetAllAsync(cancellationToken);
             if (!result.Any())
             {
                 errors.Add(new ValidationFailure

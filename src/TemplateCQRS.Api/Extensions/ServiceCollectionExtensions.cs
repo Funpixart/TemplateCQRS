@@ -89,6 +89,15 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
     }
 
+    public static void AddOutputCacheWithPolicy(this IServiceCollection services)
+    {
+        services.AddOutputCache(options =>
+        {
+            options.AddPolicy("getAllClaims", optionBuilder
+                => optionBuilder.Expire(TimeSpan.FromHours(1)).Tag("claims"));
+        });
+    }
+
     /// <summary>
     ///     Add custom identity with user, role and EF Stores from the context.
     /// </summary>
@@ -217,6 +226,12 @@ public static class ServiceCollectionExtensions
         port = !string.IsNullOrEmpty(port) && port.Equals("1433") ? "" : $",{port}";
 
         var connectionString = $"Server={server}{port};Database={database};";
+            
+        if (!string.IsNullOrEmpty(server))
+        {
+            connectionString = $"Server=localhost;Initial Catalog={database};Trusted_Connection=True;TrustServerCertificate=True;";
+            return connectionString;
+        }
 
         if (!string.IsNullOrEmpty(user))
             connectionString += $"User Id={user};";
