@@ -1,4 +1,5 @@
-﻿using AutoMapper.Internal;
+﻿using System.Reflection;
+using AutoMapper.Internal;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
@@ -9,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
+using TemplateCQRS.Api.Configurations;
 using TemplateCQRS.Api.Security;
 using TemplateCQRS.Application.Common;
 using TemplateCQRS.Domain.Common;
@@ -91,10 +93,27 @@ public static class ServiceCollectionExtensions
 
     public static void AddOutputCacheWithPolicy(this IServiceCollection services)
     {
+        var cachePolicies = typeof(CachePolicy)
+            .GetProperties(BindingFlags.Public | BindingFlags.Static)
+            .Where(pi => pi.PropertyType == typeof(CachePolicy))
+            .Select(pi => pi.GetValue(null))
+            .Cast<CachePolicy>();
+
         services.AddOutputCache(options =>
         {
-            options.AddPolicy("getAllClaims", optionBuilder
-                => optionBuilder.Expire(TimeSpan.FromHours(1)).Tag("claims"));
+            foreach (var policy in cachePolicies)
+            {
+                if (policy?.VaryByQuery is null)
+                {
+                    options.AddPolicy(policy.Name, optionBuilder
+                        => optionBuilder.Expire(policy.Expiration).Tag(policy.Tag));
+                }
+                else
+                {
+                    options.AddPolicy(policy.Name, optionBuilder
+                        => optionBuilder.SetVaryByQuery(policy.VaryByQuery).Expire(policy.Expiration).Tag(policy.Tag));
+                }
+            }
         });
     }
 

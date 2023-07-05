@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TemplateCQRS.Api.Configurations;
 using TemplateCQRS.Application.Common;
 using TemplateCQRS.Application.Features.RoleFeature.Commands;
 using TemplateCQRS.Application.Features.RoleFeature.Queries;
@@ -12,7 +13,8 @@ public static class RoleEndpoints
 {
     public static void MapRoleEndpoints(this WebApplication app)
     {
-        app.MapGet(ApiRoutes.Roles, GetAll);
+        app.MapGet(ApiRoutes.Roles, GetAll)
+            .CacheOutput(CachePolicy.GetRoles.Name);
 
         app.MapPost($"{ApiRoutes.Roles}{{role}}", CreateRole);
 

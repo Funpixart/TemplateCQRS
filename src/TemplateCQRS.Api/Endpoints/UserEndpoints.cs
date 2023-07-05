@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TemplateCQRS.Api.Configurations;
 using TemplateCQRS.Application.Common;
 using TemplateCQRS.Application.Features.UserFeature.Commands;
 using TemplateCQRS.Application.Features.UserFeature.Queries;
@@ -15,9 +16,11 @@ public static class UserEndpoints
 {
     public static void MapUserEndpoints(this WebApplication app)
     {
-        app.MapGet(ApiRoutes.Users, GetAll);
+        app.MapGet(ApiRoutes.Users, GetAll)
+            .CacheOutput(CachePolicy.GetUsers.Name);
 
-        app.MapGet($"{ApiRoutes.GetUserBy}", GetUserBy);
+        app.MapGet($"{ApiRoutes.GetUserBy}", GetUserBy)
+            .CacheOutput(CachePolicy.GetUserBy.Name);
 
         app.MapPost($"{ApiRoutes.CreateUser}", CreateUser);
 

@@ -50,14 +50,14 @@ public static class TokenEndpoints
 
         var token = TokenHelper.GenerateToken(tokenGenerationRequest, config, 15);
 
-        var userToken = new UserTokenDto
+        var userTokenDto = new UserTokenDto
         {
             Token = token,
             UserInfo = result.Data
         };
         return result.Match(
             success
-                => result.IsSuccess ? Results.Ok(userToken) : Results.NoContent(),
+                => result.IsSuccess ? Results.Ok(userTokenDto) : Results.NoContent(),
             failure => Results.BadRequest());
     }
 }

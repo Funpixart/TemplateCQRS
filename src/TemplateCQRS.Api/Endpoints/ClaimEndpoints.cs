@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using TemplateCQRS.Api.Configurations;
 using TemplateCQRS.Application.Common;
 using TemplateCQRS.Application.Features.ClaimFeature.Commands;
 using TemplateCQRS.Application.Features.ClaimFeature.Queries;
@@ -15,9 +16,10 @@ public static class ClaimEndpoints
     public static void MapClaimEndpoints(this WebApplication app)
     {
         app.MapGet(ApiRoutes.Claim, GetAll)
-            .CacheOutput("getAllClaims");
+            .CacheOutput(CachePolicy.GetClaims.Name);
 
-        app.MapGet($"{ApiRoutes.Claim}{{roleId}}", GetAllById);
+        app.MapGet($"{ApiRoutes.Claim}{{roleId}}", GetAllByRoleId)
+            .CacheOutput(CachePolicy.GetClaimsByRole.Name);
 
         app.MapPost($"{ApiRoutes.Claim}{{claim}}", CreateClaim);
 
@@ -47,7 +49,7 @@ public static class ClaimEndpoints
     [SwaggerDescription("Este endpoint retorna una lista de permisos por role.")]
     [ResponseDescription(StatusCodes.Status200OK, "Success")]
     [ProducesResponseType(typeof(ValidationFailure), StatusCodes.Status400BadRequest)]
-    public static async Task<IResult> GetAllById(Guid roleId, IMediator mediator)
+    public static async Task<IResult> GetAllByRoleId(Guid roleId, IMediator mediator)
     {
         var query = new GetAllClaimsByRoleQuery(roleId);
         var result = await mediator.Send(query);
