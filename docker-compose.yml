@@ -1,0 +1,48 @@
+version: '3.4'
+
+services:
+  templatecqrs.api:
+    container_name: TemplateCQRS_API
+    image: ${DOCKER_REGISTRY-}templatecqrsapi
+    build:
+      context: .
+      dockerfile: src/TemplateCQRS.Api/Dockerfile
+    ports:
+      - 5000:5000
+      - 5001:5001
+    depends_on:
+      - redis
+      - mysql
+    command: ["dotnet", "TemplateCQRS.Api.dll"]
+    networks:
+      - my-network
+  redis:
+    container_name: RedisInstance
+    image: redis:latest
+    ports:
+      - 6379:6379
+    networks:
+      - my-network
+  mysql:
+    container_name: MysqlInstance
+    image: mysql:latest
+    ports:
+      - 3307:3007
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: template_db
+    networks:
+      - my-network
+
+  templatecqrs.webapp:
+    container_name: TemplateCQRS_WebApp
+    build:
+      context: .
+      dockerfile: src/TemplateCQRS.WebApp/Dockerfile
+    ports:
+      - 80:80
+    command: ["dotnet", "TemplateCQRS.WebApp.dll"]
+    networks:
+      - my-network
+networks:
+  my-network:

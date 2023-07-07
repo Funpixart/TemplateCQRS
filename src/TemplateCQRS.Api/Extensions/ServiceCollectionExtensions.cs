@@ -229,7 +229,7 @@ public static class ServiceCollectionExtensions
         var password = config.GetConnectionString("MySQL_PASSWORD") ?? "";
 
         // Default port
-        port = !string.IsNullOrEmpty(port) && port.Equals("3306") ? "" : $":{port}";
+        port = !string.IsNullOrEmpty(port) && port.Equals("3306") ? "" : $";Port={port}";
 
         return $"Server={server}{port};Database={database};User={user};Password={password};";
     }
