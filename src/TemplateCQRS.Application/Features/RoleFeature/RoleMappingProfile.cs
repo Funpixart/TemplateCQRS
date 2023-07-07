@@ -14,6 +14,7 @@ internal class RoleMappingProfile : Profile
         {
             CreateMap<Role, CreateRoleDto>().ReverseMap();
             CreateMap<Role, InfoRoleDto>().ReverseMap();
+            CreateMap<Role, InfoRoleClaimDto>().ReverseMap();
             CreateMap<Role, UpdateRoleDto>().ReverseMap();
         }
         catch (Exception ex)

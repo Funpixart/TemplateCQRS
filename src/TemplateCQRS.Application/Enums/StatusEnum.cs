@@ -1,4 +1,5 @@
-﻿using TemplateCQRS.Domain.Common;
+﻿using TemplateCQRS.Application.Attributes;
+using TemplateCQRS.Domain.Common;
 
 namespace TemplateCQRS.Application.Enums;
 

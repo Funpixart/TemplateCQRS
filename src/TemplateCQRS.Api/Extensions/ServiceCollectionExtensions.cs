@@ -16,6 +16,8 @@ using TemplateCQRS.Application.Common;
 using TemplateCQRS.Domain.Common;
 using TemplateCQRS.Infrastructure.Data;
 using TemplateCQRS.Infrastructure.Repositories;
+using System.Configuration;
+using StackExchange.Redis;
 
 namespace TemplateCQRS.Api.Extensions;
 
@@ -90,16 +92,26 @@ public static class ServiceCollectionExtensions
         });
         services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
     }
-
-    public static void AddOutputCacheWithPolicy(this IServiceCollection services)
+    
+    /// <summary>
+    ///     Adds Output caching with predefined policies to the service collection.
+    ///     It reads all the cache policies from the CachePolicy class and adds
+    ///     them to the output cache options.
+    /// </summary>
+    /// <param name="services">The IServiceCollection to add the service to.</param>
+    /// <param name="config">The IConfiguration interface to access the configuration keys.</param>
+    public static void AddRedisOutputCacheWithPolicy(this IServiceCollection services, IConfiguration config)
     {
+        var redisSettings = config.GetSection("Redis");
+        services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(redisSettings["Configuration"] ?? "localhost"));
+
         var cachePolicies = typeof(CachePolicy)
             .GetProperties(BindingFlags.Public | BindingFlags.Static)
             .Where(pi => pi.PropertyType == typeof(CachePolicy))
             .Select(pi => pi.GetValue(null))
             .Cast<CachePolicy>();
 
-        services.AddOutputCache(options =>
+        services.AddRedisOutputCache(options =>
         {
             foreach (var policy in cachePolicies)
             {

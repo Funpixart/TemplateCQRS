@@ -35,7 +35,7 @@ public class Program
         builder.Services.AddGenericRepository();
 
         // Add OutputCache with policies
-        builder.Services.AddOutputCacheWithPolicy();
+        builder.Services.AddRedisOutputCacheWithPolicy(config);
 
         // Validators
         builder.Services.AddValidatorsFromAssemblyContaining(typeof(TemplateCQRS.Application.Program));

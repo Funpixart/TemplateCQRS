@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using TemplateCQRS.Domain.Common;
 
-namespace TemplateCQRS.Application.Common;
+namespace TemplateCQRS.Application.Attributes;
 
 [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
 public class MultipleDescriptionAttribute : DescriptionAttribute

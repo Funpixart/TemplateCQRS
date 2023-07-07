@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using TemplateCQRS.Api.Configurations;
+using TemplateCQRS.Application.Attributes;
 using TemplateCQRS.Application.Common;
 using TemplateCQRS.Application.Features.UserFeature.Commands;
 using TemplateCQRS.Application.Features.UserFeature.Queries;

@@ -1,8 +1,7 @@
 ﻿using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
-using TemplateCQRS.Api.Configurations;
+using TemplateCQRS.Application.Attributes;
 using TemplateCQRS.Application.Common;
 using TemplateCQRS.Application.Features.ClaimFeature.Commands;
 using TemplateCQRS.Application.Features.ClaimFeature.Queries;

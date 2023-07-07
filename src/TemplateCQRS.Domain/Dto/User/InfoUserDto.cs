@@ -13,5 +13,5 @@ public class InfoUserDto
     public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime LastLogin { get; set; }
-    public IList<InfoRoleDto>? RolesDto { get; set; }
+    public IList<InfoRoleClaimDto>? RolesDto { get; set; }
 }

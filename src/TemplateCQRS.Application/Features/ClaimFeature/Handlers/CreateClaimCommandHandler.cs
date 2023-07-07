@@ -55,7 +55,7 @@ public class CreateClaimCommandHandler : IRequestHandler<CreateClaimCommand, Pay
             await _claimRepository.CreateAsync(claim);
 
             // Refresh cache for new data.
-            await _outputCacheStore.EvictByTagAsync("getAllClaim", cancellationToken);
+            await _outputCacheStore.EvictByTagAsync(CachePolicy.GetClaims.Name, cancellationToken);
 
             // If there were any validation errors, return a failure payload.
             if (validationResult.Errors.Count > 0) return validationResult.Errors;

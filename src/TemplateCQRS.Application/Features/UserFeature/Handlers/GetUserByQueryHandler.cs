@@ -88,13 +88,13 @@ public class GetUserByQueryHandler : IRequestHandler<GetUserByQuery, Payload<Inf
 
             var infoUserDto = new InfoUserDto();
             _ = _mapper.Map(user, infoUserDto);
-            infoUserDto.RolesDto = new List<InfoRoleDto>();
+            infoUserDto.RolesDto = new List<InfoRoleClaimDto>();
 
             foreach (var role in _roleManager.Roles)
             {
                 if (!userRolesName.Contains(role.Name)) continue;
 
-                var roleDto = new InfoRoleDto();
+                var roleDto = new InfoRoleClaimDto();
                 var claimList = claims.Where(x => x.RoleId == role.Id).Select(x => x.ClaimType).ToList();
 
                 _ = _mapper.Map(role, roleDto);

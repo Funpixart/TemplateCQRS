@@ -1,4 +1,4 @@
-﻿namespace TemplateCQRS.Application.Common;
+﻿namespace TemplateCQRS.Application.Attributes;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class SwaggerSummaryAttribute : Attribute

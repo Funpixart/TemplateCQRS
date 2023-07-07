@@ -51,7 +51,7 @@ public class GetAllUserQueryHandler : IRequestHandler<GetAllUserQuery, Payload<L
             {
                 var infoUserDto = new InfoUserDto();
                 _ = _mapper.Map(user, infoUserDto);
-                infoUserDto.RolesDto = new List<InfoRoleDto>();
+                infoUserDto.RolesDto = new List<InfoRoleClaimDto>();
 
                 // Get all roles for the current user
                 var userRoleIds = await _userRoleRepository.GetAllAsync(ur => ur.UserId == user.Id);
@@ -61,7 +61,7 @@ public class GetAllUserQueryHandler : IRequestHandler<GetAllUserQuery, Payload<L
                     // This user does not have this role, so we skip to the next role
                     if (!userRoleIds.Select(ur => ur.RoleId).Contains(role.Id)) continue;
 
-                    var roleDto = new InfoRoleDto();
+                    var roleDto = new InfoRoleClaimDto();
                     var claimList = await _claimRepository.GetAllAsync(x => x.RoleId == role.Id);
 
                     _ = _mapper.Map(role, roleDto);
