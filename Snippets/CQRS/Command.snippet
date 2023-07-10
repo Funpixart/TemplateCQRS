@@ -18,9 +18,6 @@
                 </Literal>
             </Declarations>
             <Code Language="csharp"><![CDATA[
-using FluentValidation.Results;
-using MediatR;
-
 namespace $Namespace$;
 
 public record Create$Model$Command(Create$Model$Dto Create$Model$Dto) : IRequest<Payload<Info$Model$Dto, List<ValidationFailure>>>;

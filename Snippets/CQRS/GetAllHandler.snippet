@@ -18,10 +18,7 @@
                 </Literal>
             </Declarations>
             <Code Language="csharp"><![CDATA[
-using AutoMapper;
-using FluentValidation.Results;
-using MediatR;
-using Microsoft.AspNetCore.Http;
+using $Namespace$.Queries;
 
 namespace $Namespace$;
 
@@ -52,8 +49,8 @@ public class GetAll$Model$QueryHandler : IRequestHandler<GetAll$Model$sQuery, Pa
                 return errors;
             }
 
-            var claimMapped = _mapper.Map<List<Info$Model$Dto>>(result);
-            if (claimMapped is null)
+            var modelMapped = _mapper.Map<List<Info$Model$Dto>>(result);
+            if (modelMapped is null)
             {
                 errors.Add(new ValidationFailure
                 {
@@ -63,7 +60,7 @@ public class GetAll$Model$QueryHandler : IRequestHandler<GetAll$Model$sQuery, Pa
             }
 
             // If there were any validation errors, return a failure payload.
-            return errors.Count > 0 ? errors : claimMapped!;
+            return errors.Count > 0 ? errors : modelMapped!;
         }
         catch (Exception ex)
         {
