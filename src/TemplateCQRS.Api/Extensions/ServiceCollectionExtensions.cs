@@ -17,7 +17,9 @@ using TemplateCQRS.Domain.Common;
 using TemplateCQRS.Infrastructure.Data;
 using TemplateCQRS.Infrastructure.Repositories;
 using System.Configuration;
+using Microsoft.AspNetCore.OutputCaching;
 using StackExchange.Redis;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace TemplateCQRS.Api.Extensions;
 
@@ -102,16 +104,29 @@ public static class ServiceCollectionExtensions
     /// <param name="config">The IConfiguration interface to access the configuration keys.</param>
     public static void AddRedisOutputCacheWithPolicy(this IServiceCollection services, IConfiguration config)
     {
-        var redisSettings = config.GetSection("Redis");
-        services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(redisSettings["Configuration"] ?? "localhost"));
-
+        var useRedis = bool.Parse(config["UseRedis"] ?? "false");
+        
         var cachePolicies = typeof(CachePolicy)
             .GetProperties(BindingFlags.Public | BindingFlags.Static)
             .Where(pi => pi.PropertyType == typeof(CachePolicy))
             .Select(pi => pi.GetValue(null))
             .Cast<CachePolicy>();
 
-        services.AddRedisOutputCache(options =>
+        if (useRedis)
+        {
+            var redisSettings = config.GetSection("Redis");
+            services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(redisSettings["Configuration"] ?? "localhost"));
+            services.AddRedisOutputCache(BuildCacheOptions(cachePolicies));
+        }
+        else
+        {
+            services.AddOutputCache(BuildCacheOptions(cachePolicies));
+        }
+    }
+
+    private static Action<OutputCacheOptions> BuildCacheOptions(IEnumerable<CachePolicy> cachePolicies)
+    {
+        return options =>
         {
             foreach (var policy in cachePolicies)
             {
@@ -126,7 +141,7 @@ public static class ServiceCollectionExtensions
                         => optionBuilder.SetVaryByQuery(policy.VaryByQuery).Expire(policy.Expiration).Tag(policy.Tag));
                 }
             }
-        });
+        };
     }
 
     /// <summary>

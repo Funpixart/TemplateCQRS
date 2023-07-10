@@ -38,13 +38,13 @@ public class Program
         builder.Services.AddRedisOutputCacheWithPolicy(config);
 
         // Validators
-        builder.Services.AddValidatorsFromAssemblyContaining(typeof(TemplateCQRS.Application.Program));
+        builder.Services.AddValidatorsFromAssemblyContaining(typeof(Application.Program));
 
         // AutoMapper
-        builder.Services.AddAutoMapper(typeof(TemplateCQRS.Application.Program));
+        builder.Services.AddAutoMapper(typeof(Application.Program));
 
         // Set up MediatR for command and query handling
-        builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(TemplateCQRS.Application.Program).Assembly));
+        builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(Application.Program).Assembly));
 
         // Build the application
         var app = builder.Build();
