@@ -18,6 +18,11 @@ public static partial class Constants
     public static string Domain { get; } = "domain.com";
 
     /// <summary>
+    ///     Application PathBase. If Emtpy use defaults.
+    /// </summary>
+    public static string PathBase { get; } = "/test/";
+
+    /// <summary>
     ///     Aplication default roles for <see cref="Role.AccessLevel"/>.
     /// </summary>
     public static string AllAccessLevel { get; } = $"{DefaultRoles.Owner.Name}, {DefaultRoles.Admin.Name}, {DefaultRoles.Manager.Name}, " +

@@ -52,10 +52,20 @@ public static class ServiceCollectionExtensions
     public static void AddCustomDbContext<TContext>(this IServiceCollection services, IConfiguration config)
         where TContext : DbContext
     {
+        var database = config["Database"] ?? "mysql";
+        database = database.ToLower();
+
         services.AddDbContext<TContext>(options =>
         {
             options.UseLazyLoadingProxies();
-            options.UseMySql(GetMySqlCon(config), ServerVersion.AutoDetect(GetMySqlCon(config)));
+            if (database is "mssql")
+            {
+                options.UseSqlServer(GetSqlServerCon(config));
+            }
+            else
+            {
+                options.UseMySql(GetMySqlCon(config), ServerVersion.AutoDetect(GetMySqlCon(config)));
+            }
         });
     }
 

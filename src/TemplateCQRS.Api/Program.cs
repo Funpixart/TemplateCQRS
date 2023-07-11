@@ -2,6 +2,7 @@ using FluentValidation;
 using Serilog;
 using TemplateCQRS.Api.Extensions;
 using TemplateCQRS.Api.Middleware;
+using TemplateCQRS.Domain.Common;
 using TemplateCQRS.Domain.Models;
 using TemplateCQRS.Infrastructure.Data;
 
@@ -16,6 +17,9 @@ public class Program
 
         // Set up logging
         builder.Host.UseSerilog(SerilogExtensions.InitializeSerilog(config));
+
+        // Leave string empty to use the launchSetting.json urls.
+        builder.WebHost.UseUrls(config["UseUrls"] ?? "");
 
         // Register controllers and API endpoints
         builder.Services.AddControllers();
