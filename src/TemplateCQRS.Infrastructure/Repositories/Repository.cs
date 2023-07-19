@@ -13,7 +13,8 @@ public class Repository<T> : IRepository<T> where T : class
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default) => await _unitOfWork.ReadAll<T>().ToListAsync(cancellationToken);
+    public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default) 
+        => await _unitOfWork.ReadAll<T>().ToListAsync(cancellationToken);
 
     public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
         => await _unitOfWork.ReadAll<T>().Where(predicate).ToListAsync(cancellationToken);
@@ -40,6 +41,16 @@ public class Repository<T> : IRepository<T> where T : class
             return;
         }
         await _unitOfWork.RemoveAsync(entity);
+    }
+
+    public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
+    {
+        var result = await GetByAsync(x => x == entity, cancellationToken);
+        if (result is null)
+        {
+            return;
+        }
+        await _unitOfWork.RemoveAsync(result);
     }
 
     public async Task<IEnumerable<T>> GetByAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)

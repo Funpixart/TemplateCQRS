@@ -54,7 +54,7 @@ public class GetAllUserQueryHandler : IRequestHandler<GetAllUserQuery, Payload<L
                 infoUserDto.RolesDto = new List<InfoRoleClaimDto>();
 
                 // Get all roles for the current user
-                var userRoleIds = await _userRoleRepository.GetAllAsync(ur => ur.UserId == user.Id);
+                var userRoleIds = await _userRoleRepository.GetAllAsync(ur => ur.UserId == user.Id, cancellationToken);
 
                 foreach (var role in roles)
                 {
@@ -62,7 +62,7 @@ public class GetAllUserQueryHandler : IRequestHandler<GetAllUserQuery, Payload<L
                     if (!userRoleIds.Select(ur => ur.RoleId).Contains(role.Id)) continue;
 
                     var roleDto = new InfoRoleClaimDto();
-                    var claimList = await _claimRepository.GetAllAsync(x => x.RoleId == role.Id);
+                    var claimList = await _claimRepository.GetAllAsync(x => x.RoleId == role.Id, cancellationToken);
 
                     _ = _mapper.Map(role, roleDto);
 

@@ -50,6 +50,14 @@ public interface IRepository<T> where T : class
     Task DeleteAsync(int id, CancellationToken cancellationToken = default);
 
     /// <summary>
+    ///     Asynchronously deletes an entity of type T passing the entity.
+    /// </summary>
+    /// <param name="entity">The entity to delete.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A task that represents the asynchronous delete operation.</returns>
+    Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
+
+    /// <summary>
     ///     Asynchronously retrieves all entities of type T that satisfy the specified predicate from the data store.
     /// </summary>
     /// <param name="predicate">The predicate to filter the entities.</param>
