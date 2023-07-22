@@ -31,7 +31,7 @@ public class Update$Model$CommandHandler : IRequestHandler<Update$Model$Command,
     private readonly IRepository<$Model$> _repository;
     private readonly IOutputCacheStore _outputCacheStore;
 
-    public Update$Model$CommandHandler(IMapper mapper, Update$Model$CommandValidator validator
+    public Update$Model$CommandHandler(IMapper mapper, Update$Model$CommandValidator validator,
         IRepository<$Model$> repository,
         IOutputCacheStore outputCacheStore)
     {
