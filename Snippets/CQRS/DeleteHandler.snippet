@@ -17,7 +17,8 @@
                     <Default>Model</Default>
                 </Literal>
             </Declarations>
-            <Code Language="csharp"><![CDATA[
+            <Code Language="csharp">
+			<![CDATA[
 using $Namespace$.Commands;
 using $Namespace$.Validators;
 using Microsoft.AspNetCore.OutputCaching;
@@ -72,7 +73,7 @@ public class Delete$Model$CommandHandler : IRequestHandler<Delete$Model$Command,
         }
         catch (Exception ex)
         {
-            return ErrorHelper.LogExceptionAndReturnError<Delete$Model$Handler>(ex);
+            return ErrorHelper.LogExceptionAndReturnError<Delete$Model$CommandHandler>(ex);
         }
     }
 }
