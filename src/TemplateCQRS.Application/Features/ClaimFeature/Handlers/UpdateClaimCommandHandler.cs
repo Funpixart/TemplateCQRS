@@ -33,13 +33,17 @@ public class UpdateClaimCommandHandler : IRequestHandler<UpdateClaimCommand, Pay
             // Validate the request.
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
+            // If there were any validation errors, return a failure payload.
+            if (validationResult.Errors.Count > 0) return validationResult.Errors;
+
             // Get the model by the Id
             var claimFound = await _unitOfWork.FindByKey<RoleClaim>(request.Id);
 
-            // Map the dto to the model.
-            _mapper.Map(request.UpdateClaimDto, claimFound);
             if (claimFound is not null)
             {
+                // Map the dto to the model.
+                _mapper.Map(request.UpdateClaimDto, claimFound);
+
                 _ = await _repo.UpdateAsync(claimFound);
             }
             else

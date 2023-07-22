@@ -20,6 +20,7 @@
             <Code Language="csharp"><![CDATA[
 using $Namespace$.Commands;
 using $Namespace$.Validators;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace $Namespace$;
 
@@ -27,12 +28,14 @@ public class Delete$Model$CommandHandler : IRequestHandler<Delete$Model$Command,
 {
     private readonly Delete$Model$CommandValidator _validator;
     private readonly IRepository<$Model$> _repository;
+    private readonly IOutputCacheStore _outputCacheStore;
 
-
-    public Delete$Model$CommandHandler(Delete$Model$CommandValidator validator, IRepository<$Model$> repository)
+    public Delete$Model$CommandHandler(Delete$Model$CommandValidator validator, IRepository<$Model$> repository,
+        IOutputCacheStore outputCacheStore)
     {
         _validator = validator;
         _repository = repository;
+        _outputCacheStore = outputCacheStore;
     }
 
     public async Task<Payload<Unit, List<ValidationFailure>>> Handle(Delete$Model$Command request, CancellationToken cancellationToken)
@@ -43,10 +46,26 @@ public class Delete$Model$CommandHandler : IRequestHandler<Delete$Model$Command,
             // Validate the request.
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
+            // If there were any validation errors, return a failure payload.
+            if (validationResult.Errors.Count > 0) return validationResult.Errors;
+            
             // Get the model by the Id
             var model = await _repository.GetByIdAsync(request.Id);
-
-            // Logic here
+            if (model is not null)
+            {
+                await _repository.DeleteAsync(request.Id)
+                
+                // Refresh cache for the data modified.
+                await _outputCacheStore.EvictByTagAsync(CachePolicy.Get$Model$s.Name, cancellationToken);
+            }
+            else
+            {
+                validationResult.Errors.Add(new ValidationFailure
+                {
+                    ErrorCode = StatusCodes.Status400BadRequest.ToString(),
+                    ErrorMessage = "$Model$ not found or was deleted already."
+                });
+            }
 
             // If there were any validation errors, return a failure payload, otherwise, success.
             return validationResult.Errors.Count > 0 ? validationResult.Errors : Unit.Value;

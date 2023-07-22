@@ -20,6 +20,7 @@
             <Code Language="csharp"><![CDATA[
 using $Namespace$.Commands;
 using $Namespace$.Validators;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace $Namespace$;
 
@@ -27,12 +28,19 @@ public class Update$Model$CommandHandler : IRequestHandler<Update$Model$Command,
 {
     private readonly IMapper _mapper;
     private readonly Update$Model$CommandValidator _validator;
+    private readonly IRepository<$Model$> _repository;
+    private readonly IOutputCacheStore _outputCacheStore;
 
-    public Update$Model$CommandHandler(IMapper mapper, Update$Model$CommandValidator validator)
+    public Update$Model$CommandHandler(IMapper mapper, Update$Model$CommandValidator validator
+        IRepository<$Model$> repository,
+        IOutputCacheStore outputCacheStore)
     {
         _mapper = mapper;
         _validator = validator;
+        _repository = repository;
+        _outputCacheStore = outputCacheStore;
     }
+
     public async Task<Payload<Info$Model$Dto, List<ValidationFailure>>> Handle(Update$Model$Command request, CancellationToken cancellationToken)
     {
         // Catch possible exceptions and let the others exception propagate.
@@ -41,15 +49,38 @@ public class Update$Model$CommandHandler : IRequestHandler<Update$Model$Command,
             // Validate the request.
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
-            // Map the dto to the model.
-
-            // Logic here 
-
-
             // If there were any validation errors, return a failure payload.
             if (validationResult.Errors.Count > 0) return validationResult.Errors;
+            
+            // Get the model by the Id
+            var model = await _repository.GetByIdAsync(request.Id);
 
-            return new Info$Model$Dto();
+            if (model is null)
+            {
+                validationResult.Errors.Add(new ValidationFailure
+                {
+                    ErrorCode = StatusCodes.Status400BadRequest.ToString(),
+                    ErrorMessage = "$Model$ not found with the id provided."
+                });
+
+                return validationResult.Errors;
+            }
+
+            // Validate any other kind of type or duplications.
+            
+            // Map the dto to the model.
+            _mapper.Map(request.Update$Model$Dto, model);
+
+            // Logic here.
+            _ = await _repository.UpdateAsync(model);
+
+            // Refresh cache for new data.
+            await _outputCacheStore.EvictByTagAsync(CachePolicy.Get$Model$s.Name, cancellationToken);
+
+            // Reverse map the model to the InfoDto.
+            var modelInfoDto = _mapper.Map<Info$Model$Dto>(model);
+
+            return modelInfoDto;
         }
         catch (Exception ex)
         {

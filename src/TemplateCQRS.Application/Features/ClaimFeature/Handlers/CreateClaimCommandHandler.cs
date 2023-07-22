@@ -37,6 +37,9 @@ public class CreateClaimCommandHandler : IRequestHandler<CreateClaimCommand, Pay
             // Validate the request.
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
+            // If there were any validation errors, return a failure payload.
+            if (validationResult.Errors.Count > 0) return validationResult.Errors;
+
             // Map the dto to the model.
             var claim = _mapper.Map<RoleClaim>(request.CreateClaimDto);
 

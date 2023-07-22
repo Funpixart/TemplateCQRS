@@ -27,6 +27,9 @@ public class DeleteClaimCommandHandler : IRequestHandler<DeleteClaimCommand, Pay
             // Validate the request.
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
+            // If there were any validation errors, return a failure payload.
+            if (validationResult.Errors.Count > 0) return validationResult.Errors;
+
             // Get the model by the Id
             var claim = await _repo.GetByIdAsync(request.Id);
 
