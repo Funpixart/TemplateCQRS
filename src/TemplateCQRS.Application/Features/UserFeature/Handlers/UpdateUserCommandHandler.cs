@@ -3,6 +3,7 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.OutputCaching;
 using TemplateCQRS.Application.Features.UserFeature.Commands;
 using TemplateCQRS.Application.Features.UserFeature.Validators;
 
@@ -13,12 +14,14 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Paylo
     private readonly IMapper _mapper;
     private readonly UpdateUserCommandValidator _validator;
     private readonly UserManager<User> _userManager;
+    private readonly IOutputCacheStore _outputCacheStore;
 
-    public UpdateUserCommandHandler(UpdateUserCommandValidator validator, UserManager<User> userManager, IMapper mapper)
+    public UpdateUserCommandHandler(UpdateUserCommandValidator validator, UserManager<User> userManager, IMapper mapper, IOutputCacheStore outputCacheStore)
     {
         _validator = validator;
         _userManager = userManager;
         _mapper = mapper;
+        _outputCacheStore = outputCacheStore;
     }
 
     public async Task<Payload<InfoUserDto, List<ValidationFailure>>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -45,6 +48,10 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Paylo
             _mapper.Map(request.UpdateUserDto, userFound);
 
             var result = await _userManager.UpdateAsync(userFound!);
+
+            // Refresh cache for new data.
+            await _outputCacheStore.EvictByTagAsync(CachePolicy.GetUsers.Tag, cancellationToken);
+            await _outputCacheStore.EvictByTagAsync(CachePolicy.GetUserBy.Tag, cancellationToken);
 
             // Add any error on creating the model.
             if (result.Errors.Any()) validationResult.Errors.AddIdentityErrorsToValidationFailures(result.Errors);

@@ -1,6 +1,6 @@
 ﻿namespace TemplateCQRS.WebApp.Components.Enums;
 
-public enum BadgeStyle
+public enum Style
 {
     /// <summary>
     ///     A primary element. Clicking it performs the primary action in a form or dialog (e.g. "save").

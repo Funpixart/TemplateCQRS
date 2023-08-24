@@ -1,6 +1,4 @@
-﻿using FluentValidation.Results;
-using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.OutputCaching;
 using TemplateCQRS.Application.Features.ClaimFeature.Commands;
 using TemplateCQRS.Application.Features.ClaimFeature.Validators;
 using TemplateCQRS.Application.Features.RoleFeature.Handlers;
@@ -10,13 +8,15 @@ namespace TemplateCQRS.Application.Features.ClaimFeature.Handlers;
 public class DeleteClaimCommandHandler : IRequestHandler<DeleteClaimCommand, Payload<Unit, List<ValidationFailure>>>
 {
     private readonly DeleteClaimCommandValidator _validator;
-    private readonly IRepository<RoleClaim> _repo;
+    private readonly IRepository<RoleClaim> _repository;
+    private readonly IOutputCacheStore _outputCacheStore;
 
 
-    public DeleteClaimCommandHandler(DeleteClaimCommandValidator validator, IRepository<RoleClaim> repo)
+    public DeleteClaimCommandHandler(DeleteClaimCommandValidator validator, IRepository<RoleClaim> repository, IOutputCacheStore outputCacheStore)
     {
         _validator = validator;
-        _repo = repo;
+        _repository = repository;
+        _outputCacheStore = outputCacheStore;
     }
 
     public async Task<Payload<Unit, List<ValidationFailure>>> Handle(DeleteClaimCommand request, CancellationToken cancellationToken)
@@ -31,12 +31,15 @@ public class DeleteClaimCommandHandler : IRequestHandler<DeleteClaimCommand, Pay
             if (validationResult.Errors.Count > 0) return validationResult.Errors;
 
             // Get the model by the Id
-            var claim = await _repo.GetByIdAsync(request.Id);
+            var claim = await _repository.GetByIdAsync(request.Id);
 
             if (claim is not null)
             {
                 // Delete the model.
-                await _repo.DeleteAsync(request.Id);
+                await _repository.DeleteAsync(request.Id);
+
+                // Refresh cache for the data modified.
+                await _outputCacheStore.EvictByTagAsync(CachePolicy.GetClaims.Tag, cancellationToken);
             }
             else
             {

@@ -15,16 +15,16 @@ public static class ClaimEndpoints
     public static void MapClaimEndpoints(this WebApplication app)
     {
         app.MapGet(ApiRoutes.Claim, GetAll)
-            .CacheOutput(CachePolicy.GetClaims.Name);
+            .CacheOutput(CachePolicy.GetClaims.Name).RequireAuthorization();
 
         app.MapGet($"{ApiRoutes.Claim}{{roleId}}", GetAllByRoleId)
-            .CacheOutput(CachePolicy.GetClaimsByRole.Name);
+            .CacheOutput(CachePolicy.GetClaimsByRole.Name).RequireAuthorization();
 
-        app.MapPost($"{ApiRoutes.Claim}{{claim}}", CreateClaim);
+        app.MapPost($"{ApiRoutes.Claim}{{claim}}", CreateClaim).RequireAuthorization();
 
-        app.MapPut($"{ApiRoutes.Claim}{{claimId}}", UpdateClaim);
+        app.MapPut($"{ApiRoutes.Claim}{{claimId}}", UpdateClaim).RequireAuthorization();
 
-        app.MapDelete($"{ApiRoutes.Claim}{{claimId}}", DeleteClaim);
+        app.MapDelete($"{ApiRoutes.Claim}{{claimId}}", DeleteClaim).RequireAuthorization();
     }
 
     [SwaggerSummary("Lista de permisos")]

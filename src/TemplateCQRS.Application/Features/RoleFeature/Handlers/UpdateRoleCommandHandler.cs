@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using FluentValidation.Results;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.OutputCaching;
 using TemplateCQRS.Application.Features.RoleFeature.Commands;
 using TemplateCQRS.Application.Features.RoleFeature.Validators;
 
@@ -14,14 +11,16 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Paylo
     private readonly UpdateRoleCommandValidator _validator;
     private readonly RoleManager<Role> _roleManager;
     private readonly IRepository<RoleClaim> _claimRepository;
+    private readonly IOutputCacheStore _outputCacheStore;
 
     public UpdateRoleCommandHandler(IMapper mapper, UpdateRoleCommandValidator validator, RoleManager<Role> roleManager,
-        IRepository<RoleClaim> claimRepository)
+        IRepository<RoleClaim> claimRepository, IOutputCacheStore outputCacheStore)
     {
         _mapper = mapper;
         _validator = validator;
         _roleManager = roleManager;
         _claimRepository = claimRepository;
+        _outputCacheStore = outputCacheStore;
     }
 
     public async Task<Payload<InfoRoleDto, List<ValidationFailure>>> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
@@ -60,6 +59,9 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Paylo
             else
             {
                 var result = await _roleManager.UpdateAsync(roleFound);
+
+                // Refresh cache for new data.
+                await _outputCacheStore.EvictByTagAsync(CachePolicy.GetRoles.Tag, cancellationToken);
 
                 // Add any error on creating the model.
                 if (result.Errors.Any())

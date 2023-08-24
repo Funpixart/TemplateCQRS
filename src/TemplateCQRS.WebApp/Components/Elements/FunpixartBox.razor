@@ -1,0 +1,45 @@
+﻿@inherits FunpixartComponent
+
+@if (!Visible) { return; }
+
+<div @ref="@Element" class="box-flex-card" id="@UniqueId" @attributes="@Attributes">
+    <div class="boxflex">
+        <!-- Header -->
+        @if (!string.IsNullOrEmpty(HeaderTitle))
+        {
+            <div class="box-header @HeaderClass" style="@HeaderStyle">
+                <div class="header">
+                    <span>
+                        <b>@HeaderTitle</b>
+                    </span>
+                </div>
+            </div>
+            <div class="line"></div>
+        }
+        else
+        {
+            <div class="box-header @HeaderClass" style="@HeaderStyle">
+                <div class="header">
+                    @HeaderContent
+                </div>
+            </div>
+            <div class="line"></div>
+        }
+
+        <!-- Content -->
+        <div class="box-content shadow-style @ContentClass" style="@ContentStyle">
+            @Content
+        </div>
+
+
+        <!-- Footer -->
+        @if (Footer is not null)
+        {
+            <div class="line"></div>
+
+            <div class="box-footer @FooterClass" style="@FooterStyle">
+                @Footer
+            </div>
+        }
+    </div>
+</div>

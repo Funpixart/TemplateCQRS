@@ -24,15 +24,17 @@
 		<PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="Serilog.Sinks.Seq" Version="5.2.2" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
 	</ItemGroup>
-		
-  <ItemGroup>
-    <Folder Include="Data\Common\" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="Components\Notification\NotificationWrapper.razor" />
     <None Include="Components\Notification\RDKNotification.razor" />
+    <None Include="Pages\Auth\Login.cshtml" />
+    <None Include="Pages\Auth\LoginLayout.razor" />
+    <None Include="Shared\Sidebar\SidebarHeader.razor" />
+    <None Include="Shared\Sidebar\SidebarItem.razor" />
+    <None Include="Shared\Sidebar\SidebarMenu.razor" />
     <None Include="wwwroot\css\bootstrap\bootstrap.min.css.map" />
   </ItemGroup>
 

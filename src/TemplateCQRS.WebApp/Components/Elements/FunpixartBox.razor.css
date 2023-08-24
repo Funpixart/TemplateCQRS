@@ -39,18 +39,6 @@
             gap: 0.2rem;
         }
 
-        .boxflex .box-header .date {
-            display: flex;
-            align-items: center;
-            overflow-wrap: break-word;
-            max-inline-size: 15vh;
-        }
-
-            .boxflex .box-header .date span {
-                margin: 0;
-                font-size: 10px;
-            }
-
     .boxflex .box-content {
         display: flex;
         padding: 0.4rem;

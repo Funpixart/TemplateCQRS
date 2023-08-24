@@ -36,7 +36,7 @@ public static class SerilogExtensions
         return new LoggerConfiguration()
             .MinimumLevel.Override("Default", LogEventLevel.Warning)
             .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning)
-            .MinimumLevel.Verbose()
+            .MinimumLevel.Information()
             .Enrich.WithExceptionDetails()
             .Enrich.WithProperty("ApplicationName", AppDomain.CurrentDomain.FriendlyName)
             .Enrich.FromLogContext()

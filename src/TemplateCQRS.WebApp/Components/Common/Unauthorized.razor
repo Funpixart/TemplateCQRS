@@ -1,7 +1,6 @@
-﻿@page "/accessdenied"
-@using TemplateCQRS.Domain.Enums
+﻿@page "/unauthorized"
 
-<NotFound Code="@ApplicationStatusCode.WebForbidden" Message="@_message" />
+<NotFound Code="@StatusCodes.Status403Forbidden.ToString()" Message="@_message" />
 
 @code{
     private string _message = "You're not allow to see this page.";

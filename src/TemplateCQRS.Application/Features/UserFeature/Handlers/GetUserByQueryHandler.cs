@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using TemplateCQRS.Application.Features.UserFeature.Queries;
+﻿using TemplateCQRS.Application.Features.UserFeature.Queries;
 using TemplateCQRS.Application.Features.UserFeature.Validators;
-using FluentValidation.Results;
-using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

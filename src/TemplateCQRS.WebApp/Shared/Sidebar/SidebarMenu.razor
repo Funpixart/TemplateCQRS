@@ -1,0 +1,50 @@
+﻿@inherits SidebarComponent
+@if (!Visible) { return; }
+
+<div style="min-width: 240px; max-width: 240px;">
+    <div @ref="@Element" @attributes="@Attributes" id="@UniqueId" class="sidebar">
+        <div class="user-container">
+            <div class="user-profile">
+                <img src="user.png" alt="pp">
+            </div>
+            <div class="user-box">
+                <div class="user-role">
+                    <span class="user">@UserName</span>
+                    <span class="role">@UserRole</span>
+                </div>
+                <div class="logout">
+                    <a href="@LogoutEndPoint">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="nav-container">
+            <SidebarHeader SeccionHeader="Actividades" />
+            <div class="nav-links">
+                <div class="nav-item">
+                    <SidebarItem Type="SidebarType.Activity" Name="Notificaciones" IconClass="fa-bell" />
+                </div>
+            </div>
+
+            <SidebarHeader SeccionHeader="Escuela" />
+            <div class="nav-links">
+                <div class="nav-item">
+                    <SidebarItem Type="SidebarType.Menu" Name="Inicio" IconClass="fa-house" PageUrl="/" />
+                </div>
+            </div>
+            <SidebarHeader SeccionHeader="Ajustes" />
+            <div class="nav-links">
+                <AuthorizeView Roles="@Constants.AppAccessLevel5To7Roles">
+                    <div class="nav-item">
+                        <SidebarItem Type="SidebarType.Submenu" Name="Administración" IconClass="fa-list-check" PageUrl="@UriHelper.Uri">
+                            <SubMenuContents>
+                                <SidebarItem Type="SidebarType.SubmenuItem" Name="Algo" PageUrl="/" />
+                            </SubMenuContents>
+                        </SidebarItem>
+                    </div>
+                </AuthorizeView>
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,6 +12,7 @@ namespace TemplateCQRS.Domain.Models
 
     }
 
+    // This is used as dummy in order to use a custom role claim
     public class UserRole : IdentityUserRole<Guid> { }
 
     public class UserLogin : IdentityUserLogin<Guid> { }

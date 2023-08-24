@@ -19,6 +19,6 @@ public static class ApiRoutes
     public const string Security = Base + "security/";
     public const string RequestToken = Security + "requestToken/";
 
-    //Claims routes
+    // Claims routes
     public const string Claim = Base + "claims/";
 }

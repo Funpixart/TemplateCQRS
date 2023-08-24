@@ -10,17 +10,27 @@ public static partial class Constants
     /// <summary>
     ///     Application cookies.
     /// </summary>
+    public static string Version { get; } = "0.1.0";
+
+    /// <summary>
+    ///     Application cookies.
+    /// </summary>
+    public static string Company { get; } = "Company";
+
+    /// <summary>
+    ///     Application cookies.
+    /// </summary>
     public static string AppCookies { get; } = AppDomain.CurrentDomain.FriendlyName + "_APP";
 
     /// <summary>
     ///     Application domain.
     /// </summary>
-    public static string Domain { get; } = "domain.com";
+    public static string Domain { get; } = "funpixart.com";
 
     /// <summary>
     ///     Application PathBase. If Emtpy use defaults.
     /// </summary>
-    public static string PathBase { get; } = "/test/";
+    public static string PathBase { get; } = "";
 
     /// <summary>
     ///     Aplication default roles for <see cref="Role.AccessLevel"/>.

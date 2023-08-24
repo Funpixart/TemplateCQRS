@@ -2,6 +2,7 @@ using Serilog;
 using TemplateCQRS.WebApp.Components;
 using TemplateCQRS.WebApp.Data.Extensions;
 using TemplateCQRS.WebApp.Data.Middleware;
+using TemplateCQRS.WebApp.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -14,6 +15,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddFunpixartServices();
+builder.Services.AddAuthenticationWithCookies();
+builder.Services.AddHttpClient();
+
+// Add all services in this assembly
 builder.Services.AddServicesFromAssembly();
 
 var app = builder.Build();
@@ -39,5 +44,6 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.UseExceptionCatcherMiddleware();
+app.MapAccountEndpoints();
 
 app.Run();

@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using FluentValidation.Results;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.OutputCaching;
 using TemplateCQRS.Application.Features.UserFeature.Commands;
 using TemplateCQRS.Application.Features.UserFeature.Validators;
 using TemplateCQRS.Domain.Common;
@@ -11,14 +9,19 @@ namespace TemplateCQRS.Application.Features.UserFeature.Handlers;
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Payload<InfoUserDto, List<ValidationFailure>>>
 {
     private readonly UserManager<User> _userManager;
+    private readonly IRepository<Role> _roleRepository;
     private readonly CreateUserCommandValidator _validator;
     private readonly IMapper _mapper;
+    private readonly IOutputCacheStore _outputCacheStore;
 
-    public CreateUserCommandHandler(CreateUserCommandValidator validator, IMapper mapper, UserManager<User> userManager)
+    public CreateUserCommandHandler(CreateUserCommandValidator validator, IMapper mapper, UserManager<User> userManager,
+        IOutputCacheStore outputCacheStore, IRepository<Role> roleRepository)
     {
         _validator = validator;
         _mapper = mapper;
         _userManager = userManager;
+        _outputCacheStore = outputCacheStore;
+        _roleRepository = roleRepository;
     }
 
     public async Task<Payload<InfoUserDto, List<ValidationFailure>>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -40,7 +43,10 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Paylo
             if (userResult.Succeeded)
             {
                 // Add a role to the user.
-                var userToRoleResult = await _userManager.AddToRoleAsync(user, Constants.DefaultRoles.Visitor.Name);
+                var roleFound = await _roleRepository.GetByAsync(x => x.Id == request.RoleId, cancellationToken);
+                var role = roleFound.FirstOrDefault() ?? Constants.DefaultRoles.Visitor;
+
+                var userToRoleResult = await _userManager.AddToRoleAsync(user, role.Name);
                 if (!userToRoleResult.Succeeded)
                 {
                     // Add any error on adding the role to the user.
@@ -54,6 +60,10 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Paylo
             }
 
             var mappedUser = _mapper.Map<InfoUserDto>(user);
+
+            // Refresh cache for new data.
+            await _outputCacheStore.EvictByTagAsync(CachePolicy.GetUsers.Tag, cancellationToken);
+            await _outputCacheStore.EvictByTagAsync(CachePolicy.GetUserBy.Tag, cancellationToken);
 
             // If there were any validation errors, return a failure payload.
             if (validationResult.Errors.Count > 0) return validationResult.Errors;

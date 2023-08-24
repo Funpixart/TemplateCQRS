@@ -1,10 +1,39 @@
-﻿@inherits LayoutComponentBase
+﻿@using TemplateCQRS.WebApp.Data.Services
+@using System.Security.Claims
 
-<PageTitle>TemplateCQRS.WebApp</PageTitle>
+@inherits LayoutComponentBase
 
-<div class="body-content">
-    @*<SidebarMenu />*@
-    <div class="home-section">
-        @Body
-    </div>
-</div>
+<PageTitle>SysGeam.WebApp</PageTitle>
+
+<AuthorizeView Roles="@Constants.AllAccessLevel">
+    <Authorized>
+        <div class="body-content">
+            <SidebarMenu UserName="@_userName" UserRole="@_userRole" />
+            <div class="home-section">
+                @Body
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToPage PageUrl="Login" />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    [Inject]
+    protected SecurityService Security { get; set; } = null!;
+
+    private string _userName = "";
+    private string _userRole = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+    // TODO if auth failed, return to login page. Also if some validation doesnt pass, logout and return to login page.
+        if (await Security.InitializeAsync())
+        {
+            _userName = Security.Principal?.Identity?.Name ?? "n/a";
+            _userRole = Security.Principal?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value ?? "n/a";
+        }
+    }
+}

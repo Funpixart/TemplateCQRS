@@ -1,7 +1,5 @@
-﻿using FluentValidation.Results;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.OutputCaching;
 using TemplateCQRS.Application.Features.RoleFeature.Handlers;
 using TemplateCQRS.Application.Features.UserFeature.Commands;
 using TemplateCQRS.Application.Features.UserFeature.Validators;
@@ -12,11 +10,13 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Paylo
 {
     private readonly DeleteUserCommandValidator _validator;
     private readonly UserManager<User> _userManager;
+    private readonly IOutputCacheStore _outputCacheStore;
 
-    public DeleteUserCommandHandler(DeleteUserCommandValidator validator, UserManager<User> userManager)
+    public DeleteUserCommandHandler(DeleteUserCommandValidator validator, UserManager<User> userManager, IOutputCacheStore outputCacheStore)
     {
         _validator = validator;
         _userManager = userManager;
+        _outputCacheStore = outputCacheStore;
     }
 
     public async Task<Payload<Unit, List<ValidationFailure>>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
@@ -42,6 +42,10 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Paylo
             if (validationResult.Errors.Count > 0) return validationResult.Errors;
 
             var result = await _userManager.DeleteAsync(userFound!);
+
+            // Refresh cache for the data modified.
+            await _outputCacheStore.EvictByTagAsync(CachePolicy.GetUsers.Tag, cancellationToken);
+            await _outputCacheStore.EvictByTagAsync(CachePolicy.GetUserBy.Tag, cancellationToken);
 
             // Add any error on creating the model.
             if (result.Errors.Any())

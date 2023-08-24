@@ -17,18 +17,18 @@ public static class UserEndpoints
     public static void MapUserEndpoints(this WebApplication app)
     {
         app.MapGet(ApiRoutes.Users, GetAll)
-            .CacheOutput(CachePolicy.GetUsers.Name);
+            .CacheOutput(CachePolicy.GetUsers.Name).RequireAuthorization();
 
         app.MapGet($"{ApiRoutes.GetUserBy}", GetUserBy)
-            .CacheOutput(CachePolicy.GetUserBy.Name);
+            .CacheOutput(CachePolicy.GetUserBy.Name).RequireAuthorization();
 
-        app.MapPost($"{ApiRoutes.CreateUser}", CreateUser);
+        app.MapPost($"{ApiRoutes.CreateUser}", CreateUser).RequireAuthorization();
 
-        app.MapPut($"{ApiRoutes.Users}{{userId}}", UpdateUser);
+        app.MapPut($"{ApiRoutes.Users}{{userId}}", UpdateUser).RequireAuthorization();
 
-        app.MapDelete($"{ApiRoutes.Users}{{userId}}", DeleteUser);
+        app.MapDelete($"{ApiRoutes.Users}{{userId}}", DeleteUser).RequireAuthorization();
 
-        app.MapPut(ApiRoutes.UsersChangePassword, ChangePassword);
+        app.MapPut(ApiRoutes.UsersChangePassword, ChangePassword).RequireAuthorization();
     }
 
     [SwaggerSummary("Lista de usuarios")]

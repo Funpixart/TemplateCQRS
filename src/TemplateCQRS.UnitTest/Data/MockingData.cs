@@ -39,7 +39,6 @@ public class MockingData
             new User
             {
                 Id = UserIds[0],
-                Name = "User1",
                 CreatedAt = DateTime.Today,
                 LastLogin = DateTime.Today,
                 IsActive = true
@@ -47,7 +46,6 @@ public class MockingData
             new User
             {
                 Id = UserIds[1],
-                Name = "User2",
                 CreatedAt = DateTime.Today.AddDays(-1),
                 LastLogin = DateTime.Today,
                 IsActive = true
@@ -55,7 +53,6 @@ public class MockingData
             new User
             {
                 Id = UserIds[2],
-                Name = "User3",
                 CreatedAt = DateTime.Today.AddDays(-2),
                 LastLogin = DateTime.Today,
                 IsActive = false
@@ -63,7 +60,6 @@ public class MockingData
             new User
             {
                 Id = UserIds[3],
-                Name = "User4",
                 CreatedAt = DateTime.Today.AddDays(-3),
                 LastLogin = DateTime.Today,
                 IsActive = false
@@ -71,7 +67,6 @@ public class MockingData
             new User
             {
                 Id = UserIds[4],
-                Name = "User5",
                 CreatedAt = DateTime.Today.AddDays(-4),
                 LastLogin = DateTime.Today,
                 IsActive = true

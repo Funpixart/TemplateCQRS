@@ -1,7 +1,5 @@
-﻿using FluentValidation.Results;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.OutputCaching;
 using TemplateCQRS.Application.Features.RoleFeature.Commands;
 using TemplateCQRS.Application.Features.RoleFeature.Validators;
 
@@ -11,11 +9,13 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Paylo
 {
     private readonly DeleteRoleCommandValidator _validator;
     private readonly RoleManager<Role> _roleManager;
+    private readonly IOutputCacheStore _outputCacheStore;
 
-    public DeleteRoleCommandHandler(DeleteRoleCommandValidator validator, RoleManager<Role> roleManager)
+    public DeleteRoleCommandHandler(DeleteRoleCommandValidator validator, RoleManager<Role> roleManager, IOutputCacheStore outputCacheStore)
     {
         _validator = validator;
         _roleManager = roleManager;
+        _outputCacheStore = outputCacheStore;
     }
 
     public async Task<Payload<Unit, List<ValidationFailure>>> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
@@ -53,6 +53,9 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Paylo
             {
                 // Delete the model.
                 var result = await _roleManager.DeleteAsync(roleFound);
+
+                // Refresh cache for the data modified.
+                await _outputCacheStore.EvictByTagAsync(CachePolicy.GetRoles.Tag, cancellationToken);
 
                 // Add any error on creating the model.
                 if (result.Errors.Any())

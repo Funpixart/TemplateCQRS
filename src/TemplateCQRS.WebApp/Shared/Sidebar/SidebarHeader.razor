@@ -1,0 +1,15 @@
+﻿@inherits FunpixartComponent
+@if (!Visible)
+{
+    return;
+}
+
+<div class="nav-header-section">
+    <span>@SeccionHeader</span>
+    <hr class="lighter" />
+</div>
+
+
+@code{
+    [Parameter] public string SeccionHeader { get; set; } = "Header";
+}

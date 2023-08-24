@@ -1,12 +1,7 @@
-﻿using AutoMapper;
-using FluentValidation.Results;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.OutputCaching;
 using TemplateCQRS.Application.Features.ClaimFeature.Commands;
 using TemplateCQRS.Application.Features.ClaimFeature.Validators;
-using TemplateCQRS.Domain.Dto.Claim;
 
 namespace TemplateCQRS.Application.Features.ClaimFeature.Handlers;
 
@@ -58,7 +53,7 @@ public class CreateClaimCommandHandler : IRequestHandler<CreateClaimCommand, Pay
             await _claimRepository.CreateAsync(claim);
 
             // Refresh cache for new data.
-            await _outputCacheStore.EvictByTagAsync(CachePolicy.GetClaims.Name, cancellationToken);
+            await _outputCacheStore.EvictByTagAsync(CachePolicy.GetClaims.Tag, cancellationToken);
 
             // If there were any validation errors, return a failure payload.
             if (validationResult.Errors.Count > 0) return validationResult.Errors;

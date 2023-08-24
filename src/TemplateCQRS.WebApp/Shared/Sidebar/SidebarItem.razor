@@ -1,0 +1,99 @@
+﻿@using TemplateCQRS.WebApp.Components.Enums
+@inherits FunpixartComponent
+
+@if (!Visible)
+{
+    return;
+}
+
+@if (!IsSubmenuItem)
+{
+    <a href="@PageUrl" class="@ItemClass" @onclick="@( () => SubMenuActive = !SubMenuActive)">
+        <div class="link-items">
+            <i class="fa-solid @IconClass"></i>
+            <span class="link_name">@Name</span>
+        </div>
+        <!-- This shows when an activity has arrived -->
+        @if (HavePill && Pill is not 0)
+        {
+            <span class="pill">@Pill</span>
+        }
+        else if (HaveSubMenu)
+        {
+            @RenderSubMenuIcon
+        }
+    </a>
+}
+else
+{
+    <div class="link-submenu @(!IsSubmenuItem ? "active" : null)">
+        <a href="@PageUrl" class="@ItemClass">
+            <div class="link-items">
+                @if (!string.IsNullOrEmpty(IconClass))
+                {
+                    <i class="fa-solid @IconClass"></i>
+                }
+                <span class="link_name">@Name</span>
+            </div>
+        </a>
+    </div>
+}
+@if (HaveSubMenu && SubMenuActive)
+{
+    @SubMenuContents
+}
+
+@code {
+
+    [Parameter] public RenderFragment SubMenuContents { get; set; } = null!;
+    [Parameter] public SidebarType Type { get; set; }
+    [Parameter] public int Pill { get; set; } = 0;
+    [Parameter] public string Name { get; set; } = "Name";
+    [Parameter] public string PageUrl { get; set; } = "";
+    [Parameter] public string IconClass { get; set; } = "";
+
+    protected string ItemClass { get; set; } = "link-menu";
+    protected bool HavePill { get; set; } = false;
+    protected bool HaveSubMenu { get; set; } = false;
+    protected bool SubMenuActive { get; set; } = false;
+    protected bool IsSubmenuItem { get; set; } = false;
+
+    protected override void OnInitialized()
+    {
+        switch (Type)
+        {
+            case SidebarType.Menu:
+                break;
+            case SidebarType.SubmenuItem:
+                HaveSubMenu = true;
+                IsSubmenuItem = true;
+                break;
+            case SidebarType.Activity:
+                ItemClass = "link-activity";
+                HavePill = true;
+                break;
+            case SidebarType.Submenu:
+                HaveSubMenu = true;
+                break;
+            default:
+                break;
+        }
+        base.OnInitialized();
+    }
+
+    RenderFragment RenderSubMenuIcon => __builder =>
+    {
+        if (SubMenuActive)
+        {
+            <div class="icon">
+                <i class="fa-solid fa-caret-down"></i>
+            </div>
+        }
+        else
+        {
+            <div class="icon">
+                <i class="fa-solid fa-caret-left"></i>
+            </div>
+        }
+    };
+}

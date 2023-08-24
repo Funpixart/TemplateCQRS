@@ -1,13 +1,11 @@
-﻿@using TemplateCQRS.Domain.Enums
-
-<div class="not-found">
-    <span>@((int) Code)</span>
+﻿<div class="not-found">
+    <span>@Code</span>
     <span>@Message</span>
 </div>
 
 @code {
     [Parameter]
-    public ApplicationStatusCode Code { get; set; } = ApplicationStatusCode.WebNotFound;
+    public string Code { get; set; } = "404";
     [Parameter]
     public string Message { get; set; } = "Sorry, there's nothing at this address.";
 

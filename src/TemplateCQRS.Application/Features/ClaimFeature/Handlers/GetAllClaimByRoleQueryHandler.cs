@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using FluentValidation.Results;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using TemplateCQRS.Application.Features.ClaimFeature.Queries;
-using TemplateCQRS.Domain.Dto.Claim;
+﻿using TemplateCQRS.Application.Features.ClaimFeature.Queries;
 using TemplateCQRS.Infrastructure.Data;
 
 namespace TemplateCQRS.Application.Features.ClaimFeature.Handlers;
@@ -11,12 +6,10 @@ namespace TemplateCQRS.Application.Features.ClaimFeature.Handlers;
 public class GetAllClaimByRoleQueryHandler : IRequestHandler<GetAllClaimsByRoleQuery, Payload<List<InfoClaimDto>, List<ValidationFailure>>>
 {
     private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<RoleClaim> _claimRepository;
 
-    public GetAllClaimByRoleQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IRepository<RoleClaim> claimRepository)
+    public GetAllClaimByRoleQueryHandler(IMapper mapper, IRepository<RoleClaim> claimRepository)
     {
-        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _claimRepository = claimRepository;
     }

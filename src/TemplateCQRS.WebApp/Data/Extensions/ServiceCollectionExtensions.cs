@@ -13,14 +13,11 @@ public static class ServiceCollectionExtensions
     ///     These classes must implement an interface that follows the convention "I[ClassName]".
     /// </summary>
     /// <param name="services">The IServiceCollection instance to extend.</param>
-    /// <param name="namespace">The namespace to scan for services. If not provided or empty, the current application's friendly name will be used.</param>
-    public static void AddServicesFromAssembly(this IServiceCollection services, string @namespace = "")
+    public static void AddServicesFromAssembly(this IServiceCollection services)
     {
-        @namespace = string.IsNullOrEmpty(@namespace) ? AppDomain.CurrentDomain.FriendlyName : @namespace;
-
         var servicesTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type =>
-            type is { IsClass: true, IsAbstract: false }
-            && type.Namespace == @namespace + ".Services"
+            type is { IsClass: true, IsAbstract: false } 
+            && type.Namespace?.EndsWith(".Services") == true 
             && type.Name.EndsWith("Service"));
 
         foreach (var serviceType in servicesTypes)
@@ -28,6 +25,7 @@ public static class ServiceCollectionExtensions
             var interfaceType = serviceType.GetInterfaces().FirstOrDefault(i => i.Name == $"I{serviceType.Name}");
             if (interfaceType == null)
             {
+                services.AddScoped(serviceType);
                 continue;
             }
 

@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using FluentValidation.Results;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.OutputCaching;
 using TemplateCQRS.Application.Features.RoleFeature.Commands;
 using TemplateCQRS.Application.Features.RoleFeature.Validators;
 
@@ -12,12 +10,14 @@ public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Paylo
     private readonly IMapper _mapper;
     private readonly CreateRoleCommandValidator _validator;
     private readonly RoleManager<Role> _roleManager;
+    private readonly IOutputCacheStore _outputCacheStore;
 
-    public CreateRoleCommandHandler(IMapper mapper, CreateRoleCommandValidator validator, RoleManager<Role> roleManager)
+    public CreateRoleCommandHandler(IMapper mapper, CreateRoleCommandValidator validator, RoleManager<Role> roleManager, IOutputCacheStore outputCacheStore)
     {
         _mapper = mapper;
         _validator = validator;
         _roleManager = roleManager;
+        _outputCacheStore = outputCacheStore;
     }
 
     public async Task<Payload<InfoRoleDto, List<ValidationFailure>>> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
@@ -36,6 +36,9 @@ public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Paylo
 
             // Create the model.
             var result = await _roleManager.CreateAsync(role);
+
+            // Refresh cache for new data.
+            await _outputCacheStore.EvictByTagAsync(CachePolicy.GetRoles.Tag, cancellationToken);
 
             // Add any error on creating the model.
             validationResult.Errors.AddIdentityErrorsToValidationFailures(result.Errors);

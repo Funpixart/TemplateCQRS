@@ -2,13 +2,8 @@
 
 namespace TemplateCQRS.WebApp.Components.Elements;
 
-public partial class FunpixartContainer : FunpixartComponent
+public partial class FunpixartBox : FunpixartComponent
 {
-    /// <summary>
-    ///     Gets or sets the content to be the fullsize of the box.
-    /// </summary>
-    [Parameter] public bool IsFullContent { get; set; }
-
     #region HEADER
     /// <summary>
     ///     Gets or sets the Title for the Header in this box
@@ -28,27 +23,7 @@ public partial class FunpixartContainer : FunpixartComponent
     [Parameter] public RenderFragment? HeaderContent { get; set; } = null!;
 
     #endregion
-
-    #region TOP HEADER
-    /// <summary>
-    ///     Gets or sets a text in the top right corner of this box
-    /// </summary>
-    [Parameter] public string TopHead { get; set; } = "";
-    /// <summary>
-    ///     Gets or sets styles for the top right corner of this box
-    /// </summary>
-    [Parameter] public string TopStyle { get; set; } = "";
-    /// <summary>
-    ///     Gets or sets a class for the top right corner of this box
-    /// </summary>
-    [Parameter] public string TopClass { get; set; } = "";
-    /// <summary>
-    ///     Gets or sets a ChildComponent in the top right corner if is defined
-    /// </summary>
-    [Parameter] public RenderFragment? TopHeadContent { get; set; } = null!;
-
-    #endregion
-
+    
     #region CONTENT
     /// <summary>
     ///     Gets or sets a class for the Content of this box

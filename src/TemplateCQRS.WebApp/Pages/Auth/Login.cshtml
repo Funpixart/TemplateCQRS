@@ -1,0 +1,43 @@
+﻿@page "/login"
+@model TemplateCQRS.WebApp.Pages.Auth.LoginModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = AppDomain.CurrentDomain.FriendlyName + " | Login";
+    Layout = "/Pages/_Layout.cshtml";
+}
+
+<div class="form-container" style="min-height: 91vh;">
+    <form id="account" method="post">
+        <section>
+            <div class="content">
+                <div>
+                    <img src="logo.png" alt="logo">
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Message))
+                {
+                    <div class="error-container error">
+                        <span style="font-size: 14px">@Model.Message</span>
+                    </div>
+                }
+                <div class="form-card">
+                    <h2 style="text-align:center;">Login</h2>
+                    <div class="item">
+                        <label asp-for="Username">Username<span style="color: red;">*</span></label>
+                        <input asp-for="Username" type="text" name="username" required title="Correo o usuario" style="width: 15rem;" />
+                        <span asp-validation-for="Username"></span>
+                    </div>
+                    <div class="item">
+                        <div>
+                            <label asp-for="Password">Password<span style="color: red;">*</span></label>
+                        </div>
+                        <input asp-for="Password" type="password" name="password" required min="4" style="width: 15rem;" />
+                        <span asp-validation-for="Password"></span>
+                    </div>
+                    <div class="item-btn">
+                        <button class="btn-info" type="submit">Login</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+</div>

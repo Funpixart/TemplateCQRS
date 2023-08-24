@@ -13,11 +13,10 @@ else
 }
 
 @code {
-
     [Inject] public NavigationManager NavManager { get; set; } = null!;
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    [Parameter] public string PageUrl { get; set; } = "/Login";
+    [Parameter] public string PageUrl { get; set; } = "Login";
 
     [Parameter] public bool ForceLoad { get; set; } = true;
 
@@ -25,9 +24,17 @@ else
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        NavManager.NavigateTo($"{PageUrl}", ForceLoad);
+        var redirectUrl = NavManager.ToBaseRelativePath(NavManager.Uri);
+        if (!string.IsNullOrEmpty(redirectUrl))
+        {
+            NavManager.NavigateTo($"{PageUrl}?redirectUrl={Uri.EscapeDataString(redirectUrl)}", true);
+        }
+        else
+        {
+            NavManager.NavigateTo($"{PageUrl}", ForceLoad);
+        }
+
         _isLoaded = true;
         return Task.CompletedTask;
     }
-
 }

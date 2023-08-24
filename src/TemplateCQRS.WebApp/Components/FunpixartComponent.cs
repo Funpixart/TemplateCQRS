@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Serilog;
+using TemplateCQRS.WebApp.Components.Enums;
 using TemplateCQRS.WebApp.Components.Notification;
 using TemplateCQRS.WebApp.Components.Services;
 
@@ -65,9 +66,26 @@ public class FunpixartComponent : ComponentBase, IDisposable
     [Parameter]
     public virtual bool Visible { get; set; } = true;
 
-    protected override void OnInitialized()
+    /// <summary>
+    ///     <c>If</c> true, render the Darker version
+    /// </summary>
+    [Parameter] public Shade Shade { get; set; } = Shade.Default;
+    
+    /// <summary>
+    ///     Gets or sets one of the badge style
+    /// </summary>
+    [Parameter] public Style Style { get; set; } = Style.Default;
+    
+    protected override async Task OnInitializedAsync()
     {
-        UniqueId = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("/", "-").Replace("+", "-")[..10];
+        await base.OnInitializedAsync();
+        UniqueId = await GenerateElementId();
+    }
+
+    private static Task<string> GenerateElementId()
+    {
+        var base64Guid = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+        return Task.FromResult(base64Guid[..10].Replace('+', '-').Replace('/', '-'));
     }
 
     /// <summary>
@@ -90,7 +108,9 @@ public class FunpixartComponent : ComponentBase, IDisposable
             : UniqueId;
     }
 
-    protected Serilog.ILogger LogMessage() => Log.Logger.ForContext("SourceContext", GetType().Name);
+    protected string GetShade() => Shade is not Shade.Default ? $"-{Shade.ToString().ToLowerInvariant()}" : "";
+
+    protected string GetStyle() => Style.ToString().ToLowerInvariant();
 
     public virtual void Dispose()
     {

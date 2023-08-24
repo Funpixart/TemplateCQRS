@@ -17,7 +17,7 @@ public static class TokenEndpoints
     public static void MapTokenEndpoints(this WebApplication app)
     {
         app.MapPost(ApiRoutes.RequestToken, RequestToken)
-            .AllowAnonymous().CacheOutput(CachePolicy.RequestToken.Name);
+            .CacheOutput(CachePolicy.RequestToken.Name).AllowAnonymous();
     }
 
     [SwaggerSummary("Generar token")]

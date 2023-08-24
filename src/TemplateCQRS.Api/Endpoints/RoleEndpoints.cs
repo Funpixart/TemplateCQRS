@@ -14,13 +14,13 @@ public static class RoleEndpoints
     public static void MapRoleEndpoints(this WebApplication app)
     {
         app.MapGet(ApiRoutes.Roles, GetAll)
-            .CacheOutput(CachePolicy.GetRoles.Name);
+            .CacheOutput(CachePolicy.GetRoles.Name).RequireAuthorization();
 
-        app.MapPost($"{ApiRoutes.Roles}{{role}}", CreateRole);
+        app.MapPost($"{ApiRoutes.Roles}{{role}}", CreateRole).RequireAuthorization();
 
-        app.MapPut($"{ApiRoutes.Roles}{{roleId}}", UpdateRole);
+        app.MapPut($"{ApiRoutes.Roles}{{roleId}}", UpdateRole).RequireAuthorization();
 
-        app.MapDelete($"{ApiRoutes.Roles}{{roleId}}", DeleteRole);
+        app.MapDelete($"{ApiRoutes.Roles}{{roleId}}", DeleteRole).RequireAuthorization();
     }
 
     [SwaggerSummary("Lista de roles")]
