@@ -83,7 +83,6 @@ public static partial class Constants
         /// </summary>
         public static Role Owner { get; } = new()
         {
-            Id = Guid.Parse("b189749d-521a-4d21-817f-15f814e647dc"),
             Name = "Owner",
             NormalizedName = "OWNER",
             Description = "This is the highest Access Level in any app.",
@@ -97,7 +96,6 @@ public static partial class Constants
         /// </summary>
         public static Role Admin { get; } = new()
         {
-            Id = Guid.Parse("4fea907f-0e6f-4fb3-9461-cbeb4e2e3020"),
             Name = "Admin",
             NormalizedName = "ADMIN",
             Description = "In a single app this role will have all permissions and can manage all other roles.",
@@ -111,7 +109,6 @@ public static partial class Constants
         /// </summary>
         public static Role Manager { get; } = new()
         {
-            Id = Guid.Parse("d0231dc7-2a94-43aa-aad3-2dda2e608160"),
             Name = "Manager",
             NormalizedName = "MANAGER",
             Description = "This have access to most of the content and manage Supervisor role.",
@@ -125,7 +122,6 @@ public static partial class Constants
         /// </summary>
         public static Role Supervisor { get; } = new()
         {
-            Id = Guid.Parse("5242292a-6987-402a-a454-5bbf3a04d885"),
             Name = "Supervisor",
             NormalizedName = "SUPERVISOR",
             Description = "This role can have access to most of the content and manage Author and Contributor roles.",
@@ -139,7 +135,6 @@ public static partial class Constants
         /// </summary>
         public static Role Author { get; } = new()
         {
-            Id = Guid.Parse("58bc957a-92dd-47fd-8aae-b2a8b24faae0"),
             Name = "Author",
             NormalizedName = "AUTHOR",
             Description = "Same as Contributor but more independent.",
@@ -153,7 +148,6 @@ public static partial class Constants
         /// </summary>
         public static Role Contributor { get; } = new()
         {
-            Id = Guid.Parse("ddf1f8fa-232f-48e6-891a-376720600628"),
             Name = "Contributor",
             NormalizedName = "CONTRIBUTOR",
             Description = "Assign for those who will add or edit a few things.",
@@ -167,7 +161,6 @@ public static partial class Constants
         /// </summary>
         public static Role User { get; } = new()
         {
-            Id = Guid.Parse("a99b5868-9b14-4d00-8a0b-64282536c687"),
             Name = "User",
             NormalizedName = "USER",
             Description = "Role that will be assign for those who has permission to see and use the application at minimum.",
@@ -182,7 +175,6 @@ public static partial class Constants
         /// </summary>
         public static Role Visitor { get; } = new()
         {
-            Id = Guid.Parse("f91e49a9-11bd-4a8c-9036-5e42688163be"),
             Name = "Visitor",
             NormalizedName = "VISITOR",
             Description = "Default Role that is assign for new members or whenever an error is ocurre asigning a Role for the first time.",
