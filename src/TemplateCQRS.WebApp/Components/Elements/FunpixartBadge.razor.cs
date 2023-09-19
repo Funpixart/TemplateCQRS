@@ -16,8 +16,8 @@ public class BadgeComponent : FunpixartComponent
 
     protected string GetStyle()
     {
-        var style = GetStyle();
-        var shade = GetShade();
+        var style = SetStyle();
+        var shade = SetShade();
 
         return $"{style}{shade}";
     }

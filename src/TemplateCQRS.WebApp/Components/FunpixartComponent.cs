@@ -108,9 +108,9 @@ public class FunpixartComponent : ComponentBase, IDisposable
             : UniqueId;
     }
 
-    protected string GetShade() => Shade is not Shade.Default ? $"-{Shade.ToString().ToLowerInvariant()}" : "";
+    protected string SetShade() => Shade is not Shade.Default ? $"-{Shade.ToString().ToLowerInvariant()}" : "";
 
-    protected string GetStyle() => Style.ToString().ToLowerInvariant();
+    protected string SetStyle() => Style.ToString().ToLowerInvariant();
 
     public virtual void Dispose()
     {

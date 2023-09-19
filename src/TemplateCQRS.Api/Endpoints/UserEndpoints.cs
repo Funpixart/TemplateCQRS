@@ -22,7 +22,7 @@ public static class UserEndpoints
         app.MapGet($"{ApiRoutes.GetUserBy}", GetUserBy)
             .CacheOutput(CachePolicy.GetUserBy.Name).RequireAuthorization();
 
-        app.MapPost($"{ApiRoutes.CreateUser}", CreateUser).RequireAuthorization();
+        app.MapPost($"{ApiRoutes.CreateUser}", CreateUser);
 
         app.MapPut($"{ApiRoutes.Users}{{userId}}", UpdateUser).RequireAuthorization();
 

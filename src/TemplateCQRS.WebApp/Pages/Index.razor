@@ -1,3 +1,183 @@
 ﻿@page "/"
 
-<h1>Template CQRS and Blazor </h1>
+@inject INotificationService Notification
+
+<PageTitle>Blazor template with components in .NET 7</PageTitle>
+
+<hr style="height: 10px;" />
+
+<FunpixartBox HeaderTitle="Components">
+    <Content>
+        <div style="display: flex; flex-wrap: wrap; flex: 1 1 content;">
+            <!-- Badges-->
+            <FunpixartBox HeaderTitle="Badges">
+                <Content>
+                    <div style="display: flex; flex-wrap: wrap; max-width: 50rem;">
+                        <div>
+                            <FunpixartBadge Style="@Style.Purple" />
+                            <FunpixartBadge Style="@Style.Purple" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Style="@Style.Purple" Simple="true" />
+                            <FunpixartBadge Style="@Style.Purple" Simple="true" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Style="@Style.Success" />
+                            <FunpixartBadge Style="@Style.Success" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Style="@Style.Success" Simple="true" />
+                            <FunpixartBadge Style="@Style.Success" Simple="true" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Style="@Style.Orange" />
+                            <FunpixartBadge Style="@Style.Orange" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Style="@Style.Orange" Simple="true" />
+                            <FunpixartBadge Style="@Style.Orange" Simple="true" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Style="@Style.Cyan" />
+                            <FunpixartBadge Style="@Style.Cyan" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Style="@Style.Cyan" Simple="true" />
+                            <FunpixartBadge Style="@Style.Cyan" Simple="true" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Style="@Style.Warning" />
+                            <FunpixartBadge Style="@Style.Warning" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Style="@Style.Warning" Simple="true" />
+                            <FunpixartBadge Style="@Style.Warning" Simple="true" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Style="@Style.Danger" />
+                            <FunpixartBadge Style="@Style.Danger" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Style="@Style.Danger" Simple="true" />
+                            <FunpixartBadge Style="@Style.Danger" Simple="true" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Style="@Style.Info" />
+                            <FunpixartBadge Style="@Style.Info" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Style="@Style.Info" Simple="true" />
+                            <FunpixartBadge Style="@Style.Info" Simple="true" Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge />
+                            <FunpixartBadge Shade="@Shade.Dark" />
+                        </div>
+                        <div>
+                            <FunpixartBadge Simple="true" />
+                            <FunpixartBadge Simple="true" Shade="@Shade.Dark" />
+                        </div>
+                    </div>
+                </Content>
+            </FunpixartBox>
+            <!-- Select -->
+            <FunpixartBox HeaderTitle="Select">
+                <Content>
+                    <select style="width: 100%;">
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </select>
+                </Content>
+            </FunpixartBox>
+            <!-- Input -->
+            <FunpixartBox HeaderTitle="Input">
+                <Content>
+                    <input type="text" />
+                </Content>
+            </FunpixartBox>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; flex: 1 1 content;">
+            <!-- Buttons -->
+            <FunpixartBox HeaderTitle="Buttons" ContentStyle="gap: 1rem; flex-direction: column;">
+                <Content>
+                    <div style="gap: 0.4rem; display: flex; flex-wrap: wrap;">
+                        <button class="info-dark">Info</button>
+                        <button class="warning-dark">Warning</button>
+                        <button class="error-dark">Danger</button>
+                        <button class="success-dark">Success</button>
+                        <button class="default-dark"> Normal</button>
+                        <button class="orange-dark">Orange</button>
+                        <button class="purple-dark">Purple</button>
+                        <button class="cyan-dark">Cyan</button>
+                    </div>
+
+                    <div style="gap: 0.4rem; display: flex; flex-wrap: wrap;">
+                        <button class="info">Info</button>
+                        <button class="warning">Warning</button>
+                        <button class="error">Danger</button>
+                        <button class="success">Success</button>
+                        <button class="default">Normal</button>
+                        <button class="orange">Orange</button>
+                        <button class="purple">Purple</button>
+                        <button class="cyan">Cyan</button>
+                    </div>
+                </Content>
+            </FunpixartBox>
+            <!-- FunpixartBox -->
+            <FunpixartBox HeaderTitle="BoxFlex" TopHead="Something more here">
+                <Content>
+                    <span>Here is the content</span>
+                </Content>
+                <Footer>
+                    <span>This was edited 5 minutes ago...</span>
+                </Footer>
+            </FunpixartBox>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; flex: 1 1 content;">
+            <!-- Spinner -->
+            <FunpixartBox HeaderTitle="Spinner" ContentStyle="gap: 1rem;">
+                <Content>
+                    <FunpixartSpinner SpinnerType="SpinnerType.Circle" />
+                    <FunpixartSpinner SpinnerType="SpinnerType.FadeCircle" />
+                    <FunpixartSpinner SpinnerType="SpinnerType.FoldingCube" />
+                    <FunpixartSpinner SpinnerType="SpinnerType.GridCube" />
+                </Content>
+            </FunpixartBox>
+            <!-- Notification -->
+            <FunpixartBox HeaderTitle="Notification" ContentStyle="gap: 1rem;">
+                <Content>
+                    <button @onclick="@(() => Notification.SendNotification(NotificationType.Info, "This is an info message"))" class="info-dark">Info</button>
+                    <button @onclick="@(() => Notification.SendNotification(NotificationType.Warning, "This is a warning message"))" class="warning-dark">Warning</button>
+                    <button @onclick="@(() => Notification.SendNotification(NotificationType.Error, "This is an error message with footer", "invoke by @Sparkymod"))" class="error-dark">Danger</button>
+                    <button @onclick="@(() => Notification.SendNotification(NotificationType.Success, "This is success message"))" class="success-dark">Success</button>
+                </Content>
+            </FunpixartBox>
+            <!-- FunpixartBox Nested-->
+            <FunpixartBox>
+                <HeaderContent>
+                    <FunpixartBox HeaderTitle="Header">
+                        <Content>Nested Header</Content>
+                    </FunpixartBox>
+                </HeaderContent>
+                <Content>
+                    <FunpixartBox HeaderTitle="Content">
+                        <Content>Nested Content</Content>
+                    </FunpixartBox>
+                </Content>
+                <Footer>
+                    <FunpixartBox HeaderTitle="Footer">
+                        <Content>Nested Footer</Content>
+                    </FunpixartBox>
+                </Footer>
+            </FunpixartBox>
+        </div>
+    </Content>
+    <Footer>
+        <div style="display: flex; flex-direction: column; flex-wrap: wrap;">
+            <span>This is made in <b>.NET 7</b></span>
+            <span>You can also see all the available Endpoints in <b><a href="/swagger">here</a></b></span>
+        </div>
+
+
+    </Footer>
+</FunpixartBox>
